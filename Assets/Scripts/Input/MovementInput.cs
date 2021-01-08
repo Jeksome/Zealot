@@ -7,10 +7,8 @@ using UnityEngine;
 public class MovementInput : MonoBehaviour
 {
     public float runningSpeed = 6.0f;
-    public float gravity = -9.8f;
-
     private CharacterController _playerController;
-
+    
     void Start()
     {
         _playerController = GetComponent<CharacterController>();
@@ -20,11 +18,9 @@ public class MovementInput : MonoBehaviour
     {
         float deltaX = Input.GetAxis("Horizontal") * runningSpeed;
         float deltaZ = Input.GetAxis("Vertical") * runningSpeed;
+
         Vector3 movement = new Vector3(deltaX, 0, deltaZ);
         movement = Vector3.ClampMagnitude(movement, runningSpeed);
-
-        movement.y = gravity;
-
         movement *= Time.deltaTime;
         movement = transform.TransformDirection(movement);
         _playerController.Move(movement);

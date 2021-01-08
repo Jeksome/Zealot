@@ -1,55 +1,40 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public enum RotationAxes
-    {
-        MouseXandY = 0,
-        MouseX = 1,
-        MouseY = 2
-    }
+    public Transform playerBody;
 
-    public RotationAxes axes = RotationAxes.MouseXandY;
-    public float horizontalSens = 9.0f;
-    public float verticalSens = 9.0f;
-    public float minVertRange = -45.0f;
-    public float maxVertRange = 45.0f;
-
-    private float _rotationX = 0;
+    private float xRotation = 0f; 
+    private float mouseSens = 300f;
+    private Camera _camera;
 
     void Start()
     {
-        Rigidbody playerBody = GetComponent<Rigidbody>();
+        _camera = GetComponent<Camera>();
 
-        if (playerBody != null)
-            playerBody.freezeRotation = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
     {
-        if (axes == RotationAxes.MouseX)
-        {
-            transform.Rotate(0, Input.GetAxis("Mouse X") * horizontalSens, 0);
-        }
-        else if (axes == RotationAxes.MouseY)
-        {
-            _rotationX -= Input.GetAxis("Mouse Y") * verticalSens;
-            _rotationX = Mathf.Clamp(_rotationX, minVertRange, maxVertRange);
+        float mouseX = Input.GetAxis("Mouse X") * mouseSens * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSens * Time.deltaTime;
 
-            float _rotationY = transform.localEulerAngles.y;
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -75f, 75f);
 
-            transform.localEulerAngles = new Vector3(_rotationX, _rotationY, 0);
-        }
-        else
-        {
-            _rotationX -= Input.GetAxis("Mouse Y") * verticalSens;
-            _rotationX = Mathf.Clamp(_rotationX, minVertRange, maxVertRange);
-            float delta = Input.GetAxis("Mouse X") * horizontalSens;
-            float _rotationY = transform.localEulerAngles.y + delta;
-            transform.localEulerAngles = new Vector3(_rotationX, _rotationY, 0);
-        }
-        
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        playerBody.Rotate(Vector3.up * mouseX);
+    }
 
+    private void OnGUI()
+    {
+        int size = 12;
+        float posX = _camera.pixelWidth / 2 - size / 4;
+        float posY = _camera.pixelHeight / 2 - size / 2;
+        GUI.Label(new Rect(posX, posY, size, size), "*");
     }
 }

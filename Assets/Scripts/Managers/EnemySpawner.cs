@@ -8,12 +8,18 @@ public class EnemySpawner : MonoBehaviour
     private GameObject enemyPrefab;
     private GameObject _enemy;
 
+    private float pos = 25f;
+    private float posZ = 25f;
+
     void Update()
     {
+        
+        float randomPos = Random.Range(pos, -pos);
+
         if (_enemy == null)
         {
             _enemy = Instantiate(enemyPrefab) as GameObject;
-            _enemy.transform.position = new Vector3(0, 1, 0);
+            _enemy.transform.position = new Vector3(randomPos, 1, randomPos);
             float angle = Random.Range(0, 360);
             _enemy.transform.Rotate(0, angle, 0);
         }

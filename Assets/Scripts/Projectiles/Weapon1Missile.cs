@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Missile : MonoBehaviour
+public class Weapon1Missile : MonoBehaviour
 {
-    public float missileSpeed = 10.0f;
-    private int missileDamage = 5;
-
+    public float missileSpeed = 200.0f;
+    public int missileDamage = 1;
     void Update()
     {
         transform.Translate(0, 0, missileSpeed * Time.deltaTime);
@@ -14,10 +13,10 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerCharacter player = other.GetComponent<PlayerCharacter>();
-        if (player != null)
+        PatrolingBot bot = other.GetComponent<PatrolingBot>();
+        if (bot != null)
         {
-            player.Hurt(missileDamage);
+            bot.Hurt(missileDamage);
         }
         Destroy(this.gameObject);
     }

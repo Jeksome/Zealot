@@ -9,6 +9,7 @@ public class PatrolingBot : MonoBehaviour
 
     public float movingSpeed = 3.0f;
     public float obstacleRange = 5.0f;
+    public float _health = 5;
 
     private bool _alive;
     void Start()
@@ -20,33 +21,49 @@ public class PatrolingBot : MonoBehaviour
     {
         if (_alive)
         {
-            transform.Translate(0, 0, movingSpeed * Time.deltaTime);
-
-            Ray ray = new Ray(transform.position, transform.forward);
-            RaycastHit hit;
-
-            if (Physics.SphereCast(ray, 0.75f, out hit))
-            {
-                GameObject hitObject = hit.transform.gameObject;
-                if(hitObject.GetComponent<PlayerCharacter>())
-                {
-                    if (_missile == null)
-                    {
-                        _missile = Instantiate(missilePrefab) as GameObject;
-                        _missile.transform.position = transform.TransformPoint(Vector3.forward * 1.5f);
-                        _missile.transform.rotation = transform.rotation;
-                    }
-                }
-                if (hit.distance < obstacleRange)
-                {
-                    float angle = Random.Range(-110, 110);
-                    transform.Rotate(0, angle, 0);
-                }
-            }
-        }    
+            Patroling();
+        }
+        else
+        {
+            Destroy(this.gameObject);
+            Debug.Log("Bot is killed");
+        }
     }
+
     public void SetAlive(bool alive)
     {
         _alive = alive;
+    }
+
+    public void Hurt(int damage)
+    {
+        _health -= damage;
+    }
+
+    private void Patroling()
+    {
+        transform.Translate(0, 0, movingSpeed * Time.deltaTime);
+
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+
+        if (Physics.SphereCast(ray, 0.75f, out hit))
+        {
+            GameObject hitObject = hit.transform.gameObject;
+            if (hitObject.GetComponent<PlayerCharacter>())
+            {
+                if (_missile == null)
+                {
+                    _missile = Instantiate(missilePrefab) as GameObject;
+                    _missile.transform.position = transform.TransformPoint(Vector3.forward * 1.5f);
+                    _missile.transform.rotation = transform.rotation;
+                }
+            }
+            if (hit.distance < obstacleRange)
+            {
+                float angle = Random.Range(-110, 110);
+                transform.Rotate(0, angle, 0);
+            }
+        }
     }
 }

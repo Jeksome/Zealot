@@ -4,44 +4,50 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
+    [SerializeField] private GameObject missilePrefab;
+    private GameObject _missile;
     private Camera _camera;
+    
     void Start()
     {
         _camera = GetComponent<Camera>();
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
-
-    private void OnGUI()
-    {
-        int size = 12;
-        float posX = _camera.pixelWidth / 2 - size / 4;
-        float posY = _camera.pixelHeight / 2 - size / 2;
-        GUI.Label(new Rect(posX, posY, size, size), "*");
-    }
-
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
-            Ray ray = _camera.ScreenPointToRay(point);
-            RaycastHit hit;
-            if (Physics.Raycast (ray, out hit))
+            Shoot();
+        }
+    }
+
+    private void Shoot()
+    {
+        Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
+        Ray ray = _camera.ScreenPointToRay(point);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            GameObject hitObject = hit.transform.gameObject;
+            HitDetector target = hitObject.GetComponent<HitDetector>();
+            if (target != null)
             {
-                GameObject hitObject = hit.transform.gameObject;
-                HitDetector target = hitObject.GetComponent<HitDetector>();
-                if (target != null)
-                {
-                    target.HitReaction();
-                }
-                else
-                {
-                    StartCoroutine(SphereIndicator(hit.point));
-                }
+                ProjectileLaunch();
+                target.HitReaction();
+            }
+            else
+            {
+                ProjectileLaunch();
+                StartCoroutine(SphereIndicator(hit.point));
             }
         }
+    }
+
+    private void ProjectileLaunch()
+    {
+        _missile = Instantiate(missilePrefab) as GameObject;
+        _missile.transform.position = transform.TransformPoint(Vector3.forward * 1.5f);
+        _missile.transform.rotation = transform.rotation;
     }
 
     private IEnumerator SphereIndicator(Vector3 pos)
