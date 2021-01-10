@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class HitDetector : MonoBehaviour
 {
-    public void HitReaction()
+    //[SerializeField] private GameObject _rotEffectParticle;
+    public GameObject hitEffect;
+    public void HitReaction(Vector3 pos)
     {
-        PatrolingBot behaviour = GetComponent<PatrolingBot>();
-        if (behaviour != null)
+        PatrolingBot Zombie = GetComponent<PatrolingBot>();
+        if (Zombie != null)
         {
-            behaviour.SetAlive(false);
+            //Zombie.SetAlive(false);
+            Zombie.Hurt(1);
+            Bleeding(pos);
         }
-        StartCoroutine(Die());
+        //StartCoroutine(BloodSpray(pos));
     }
 
-    private IEnumerator Die()
+    void Bleeding(Vector3 pos)
+    {
+        GameObject spawnedDecal = GameObject.Instantiate(hitEffect, pos, Quaternion.LookRotation(pos.normalized));
+    }
+
+    /*private IEnumerator Die()
     {
         this.transform.Rotate(-75, 0, 0);
 
@@ -22,4 +31,13 @@ public class HitDetector : MonoBehaviour
 
         Destroy(this.gameObject);
     }
+    private IEnumerator BloodSpray(Vector3 pos)
+    {
+        Instantiate(_rotEffectParticle, pos, Quaternion.LookRotation(pos));
+        //sphere.transform.position = pos;
+
+        yield return new WaitForSeconds(1f);
+
+        
+    }*/
 }

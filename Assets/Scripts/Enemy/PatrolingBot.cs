@@ -4,40 +4,38 @@ using UnityEngine;
 
 public class PatrolingBot : MonoBehaviour
 {
-    [SerializeField] private GameObject missilePrefab;
-    private GameObject _missile;
+    private Animator zombieAnim;
 
-    public float movingSpeed = 3.0f;
-    public float obstacleRange = 5.0f;
-    public float _health = 5;
+    private float movingSpeed = 1.0f;
+    private float obstacleRange = 1.0f;
+    private float health = 5;
 
-    private bool _alive;
+    private bool alive;
+
     void Start()
     {
-        _alive = true;
+        alive = true;
+        zombieAnim = GetComponent<Animator>();
+        zombieAnim.SetBool("isWalking", true);
     }
 
     void Update()
     {
-        if (_alive)
-        {
+        if (health < 1)
+            alive = false;
+
+        if (alive)
             Patroling();
-        }
         else
         {
-            Destroy(this.gameObject);
-            Debug.Log("Bot is killed");
+            zombieAnim.SetBool("isKilled", true);
+            GetComponent<CapsuleCollider>().enabled = false;
         }
-    }
-
-    public void SetAlive(bool alive)
-    {
-        _alive = alive;
     }
 
     public void Hurt(int damage)
     {
-        _health -= damage;
+        health -= damage;
     }
 
     private void Patroling()
@@ -52,12 +50,7 @@ public class PatrolingBot : MonoBehaviour
             GameObject hitObject = hit.transform.gameObject;
             if (hitObject.GetComponent<PlayerCharacter>())
             {
-                if (_missile == null)
-                {
-                    _missile = Instantiate(missilePrefab) as GameObject;
-                    _missile.transform.position = transform.TransformPoint(Vector3.forward * 1.5f);
-                    _missile.transform.rotation = transform.rotation;
-                }
+             
             }
             if (hit.distance < obstacleRange)
             {

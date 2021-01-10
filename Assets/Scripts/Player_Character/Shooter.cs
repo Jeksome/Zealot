@@ -7,7 +7,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] private GameObject missilePrefab;
     private GameObject _missile;
     private Camera _camera;
-    
+
     void Start()
     {
         _camera = GetComponent<Camera>();
@@ -30,15 +30,16 @@ public class Shooter : MonoBehaviour
         {
             GameObject hitObject = hit.transform.gameObject;
             HitDetector target = hitObject.GetComponent<HitDetector>();
+
             if (target != null)
             {
                 ProjectileLaunch();
-                target.HitReaction();
+                target.HitReaction(hit.point);
             }
             else
             {
                 ProjectileLaunch();
-                //StartCoroutine(SphereIndicator(hit.point));
+                //StartCoroutine(walldamage(hit.point));
             }
         }
     }
@@ -50,16 +51,5 @@ public class Shooter : MonoBehaviour
         _missile.transform.rotation = transform.rotation;
     }
 
-    /*private IEnumerator SphereIndicator(Vector3 pos)
-    {
-
-        ///implement damage on the walls instead///
-
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.transform.position = pos;
-
-        yield return new WaitForSeconds(1);
-
-        Destroy(sphere);
-    }*/
+ 
 }
