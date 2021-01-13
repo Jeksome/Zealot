@@ -14,27 +14,27 @@ public class Jump : MonoBehaviour
     public LayerMask groundMask;
 
     private bool _isGrounded;
-    private Vector3 _velocity;
-    private CharacterController _playerController;
+    private Vector3 velocity;
+    private CharacterController playerController;
 
     void Start()
     {
-        _playerController = GetComponent<CharacterController>();
+        playerController = GetComponent<CharacterController>();
     }
 
     void Update()
     {
         _isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if (_isGrounded && _velocity.y < 0)
+        if (_isGrounded && velocity.y < 0)
         {
-            _velocity.y = -2f;
+            velocity.y = -2f;
         }
         if (Input.GetButtonDown("Jump") && _isGrounded)
         {
-            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
-        _velocity.y += gravity * Time.deltaTime;
-        _playerController.Move(_velocity * Time.deltaTime);
+        velocity.y += gravity * Time.deltaTime;
+        playerController.Move(velocity * Time.deltaTime);
     }
 }

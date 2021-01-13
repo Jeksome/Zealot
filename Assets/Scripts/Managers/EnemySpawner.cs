@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject enemyPrefab;
+    public GameObject enemyPrefab;
     private GameObject _enemy;
 
     private float pos = 23f;

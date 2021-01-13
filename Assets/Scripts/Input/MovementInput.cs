@@ -1,17 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent (typeof (CharacterController))]
-[AddComponentMenu("Control Script/Movement Input")]
-
 public class MovementInput : MonoBehaviour
 {
     public float runningSpeed = 6.0f;
-    private CharacterController _playerController;
+    private CharacterController playerController;
     
     void Start()
     {
-        _playerController = GetComponent<CharacterController>();
+        playerController = GetComponent<CharacterController>();
     }
 
     void Update()
@@ -23,6 +20,6 @@ public class MovementInput : MonoBehaviour
         movement = Vector3.ClampMagnitude(movement, runningSpeed);
         movement *= Time.deltaTime;
         movement = transform.TransformDirection(movement);
-        _playerController.Move(movement);
+        playerController.Move(movement);
     }
 }

@@ -1670,7 +1670,7 @@ GameObject:
   - component: {fileID: 2672083189254929280}
   - component: {fileID: 8701536150543832401}
   m_Layer: 0
-  m_Name: Zombie1
+  m_Name: Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1736,11 +1736,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af34e8b02d84404e96c09a365c9ffba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missilePrefab: {fileID: 7853066328122420114, guid: 7420c452b13e538418766976fa946bfe,
-    type: 3}
-  movingSpeed: 1
-  obstacleRange: 5
-  health: 5
+  bleedEffect: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &2672083189254929280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1753,7 +1750,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbf4c046976837a43a6817e661d2de2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitEffect: {fileID: 1000013169864706, guid: e5a3d6da48298a0458c1990f58c27069, type: 3}
 --- !u!136 &8701536150543832401
 CapsuleCollider:
   m_ObjectHideFlags: 0
