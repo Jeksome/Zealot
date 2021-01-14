@@ -57,6 +57,10 @@ public class MouseLook : MonoBehaviour
                     itemGrabbed.SetActive(false);
                     ElvenStaff elvenStaff = FindObjectOfType<ElvenStaff>();
                     elvenStaff.IncreaseAmmo(Random.Range(10, 15));
+
+                    //FIX THIS
+                    
+                    //MAKE ELVENSTAFF SINGLETON OR MAKE ANOTHER CLASS FOR AMMO
                 }
                 else if (hit.collider.tag == "Door")
                 {

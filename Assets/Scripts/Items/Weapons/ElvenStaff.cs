@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ElvenStaff : Weapon
 {
     public Transform weaponTip;
-    
-    private Camera playerCamera;
+    public TMP_Text ammoValue;
+    public Camera playerCamera;
     private LineRenderer laserLine;
     private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);
     private float nextFire;
 
     private void Start()
     {
-        playerCamera = GetComponent<Camera>();
+        //playerCamera = GetComponent<Camera>();
         laserLine = GetComponent<LineRenderer>();
 
         ammo = 0;
@@ -37,6 +38,11 @@ public class ElvenStaff : Weapon
         else if (ammo <= 0)
         {
             ammo = 0;
+        }
+
+        if (ammo > 0)
+        {
+            ammoValue.text = "Crystals:  " + ammo.ToString();
         }
     }
 

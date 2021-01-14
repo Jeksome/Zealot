@@ -1,30 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    private int _health;
+    public static PlayerCharacter instance = null;
+    public TMP_Text healthAmount;
+
+    private int health;
     private bool isAlive;
     void Start()
     {
-        _health = 5;
+        if (instance == null)
+        {
+            instance = this; 
+        }
+        else if (instance == this)
+        { 
+            Destroy(gameObject); 
+        }
+
+        health = 100;
         isAlive = true;
     }
 
     void Update()
     {
-        if (_health < 1 && isAlive)
+        if (health < 1 && isAlive)
         {
             Death();
             isAlive = false;
         }
+        healthAmount.text = "Health: " + health.ToString();
     }
 
     public void Hurt(int damage)
     {
-        _health -= damage;
-        Debug.Log("Health: " + _health);
+        health -= damage;
+        Debug.Log("Health: " + health);
     }
 
     public void Death()
