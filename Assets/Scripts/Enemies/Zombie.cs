@@ -1,43 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Zombie : MonoBehaviour
 {
     public GameObject bleedEffect;
     public GameObject target;
+    public Transform[] waypoints;
 
-    public enum State
-    {
-        Patroling,
-        Chasing,
-        Attacking,
-        Hitting,
-        Dead,
-        InHeaven
-    }
-
-    private float movingSpeed = 0.5f;
-    private float obstacleRange = 1.0f;
+    private enum State {Patroling, Chasing, Attacking, Hitting, Dead, InHeaven}
+    private State state;
+    private Animator zombieAnim;
+    private NavMeshAgent zombieAgent;
     private float attackRate;
+    private float nextAttackTime;
     private int attackDamage;
     private int health;
     private int maxHealth;
     private int minHealth;
-    private Animator zombieAnim;
-    float nextAttackTime;
-
-    private State state;
-
-    private void Awake()
-    {
-        state = State.Patroling;
-    }
+    private int waypointNumber;
 
     void Start()
     {
+        zombieAgent = GetComponent<NavMeshAgent>();
+        //zombieAgent.autoBraking = true;
+        //MoveToNextWaypoint();
+        state = State.Patroling;
+
         zombieAnim = GetComponent<Animator>();
         zombieAnim.SetBool("isWalking", true);
+
         health = maxHealth = 5;
         minHealth = 1;
         attackRate = 0.75f;
@@ -54,27 +47,14 @@ public class Zombie : MonoBehaviour
         {
             default:
             case State.Patroling:
-                transform.Translate(0, 0, movingSpeed * Time.deltaTime);
-
-                Ray ray = new Ray(transform.position, transform.forward);
-                RaycastHit hit;
-
-                if (Physics.SphereCast(ray, 0.75f, out hit))
-                {
-                    if (hit.distance < obstacleRange)
-                    {
-                        float angle = Random.Range(-110, 110);
-                        transform.Rotate(0, angle, 0);
-                    }
-                }
+                if (!zombieAgent.pathPending && zombieAgent.remainingDistance < 0.5f)
+                    MoveToNextWaypoint();
                 FindTarget();
                 break;
             case State.Chasing:
-                movingSpeed = 0.5f;
-                Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
-                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5 * Time.deltaTime);
-                transform.position += transform.forward * 4f * movingSpeed * Time.deltaTime;
+                zombieAgent.speed = zombieAgent.speed;
+                //zombieAgent.autoBraking = true;
+                zombieAgent.destination = target.transform.position;
                 zombieAnim.SetBool("isRunning", true);
                 break;
 
@@ -83,17 +63,16 @@ public class Zombie : MonoBehaviour
                 {
                     state = State.Attacking;
                     zombieAnim.SetBool("isAttacking", true);
-                    movingSpeed = 0;
-                    nextAttackTime = Time.time + attackRate;
-                    attackDamage = Random.Range(1, 4);
-                    PlayerCharacter.instance.Hurt(attackDamage);
+                    zombieAgent.isStopped = true;
+                    nextAttackTime = Time.time + attackRate; 
                 }
                 break;
             case State.Dead:
                 health = 0;
                 zombieAnim.SetBool("isKilled", true);
-                GetComponent<CapsuleCollider>().direction = 2;
-                GetComponent<CapsuleCollider>().center = new Vector3(0, 0.23f, 0);
+                zombieAgent.isStopped = true;
+                //GetComponent<CapsuleCollider>().direction = 2;
+                //GetComponent<CapsuleCollider>().center = new Vector3(0, 0.23f, 0);
                 state = State.InHeaven;
                 break;
             case State.InHeaven:
@@ -101,12 +80,19 @@ public class Zombie : MonoBehaviour
         }
     }
 
+    void MoveToNextWaypoint()
+    {
+        zombieAgent.destination = waypoints[waypointNumber].position;
+        waypointNumber = Random.Range(0, waypoints.Length);
+        //waypointNumber = (waypointNumber + 1) % waypoints.Length;             for bigger amount of waypoints
+    }
+
     void FindTarget()
     {
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
-
-        if (Physics.SphereCast(ray, 5f, out hit))
+        //TODO SWAP TO ONTRIGGERENTER
+        if (Physics.SphereCast(ray, 2f, out hit))
         {
             if (hit.collider.CompareTag("Player"))
             {
@@ -114,12 +100,19 @@ public class Zombie : MonoBehaviour
             }
         }
     }
+
+    void HitPlayer()    
+    {
+        //Function called twice as attack animation action
+        attackDamage = Random.Range(1, 4);
+        PlayerCharacter.instance.Hurt(attackDamage);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "First Person Player")
         {
             zombieAnim.SetBool("isAttacking", true);
-            movingSpeed = 0;
             state = State.Attacking;
         }
     }
@@ -129,7 +122,7 @@ public class Zombie : MonoBehaviour
         if (other.gameObject.name == "First Person Player")
         {
             zombieAnim.SetBool("isAttacking", false);
-            movingSpeed = 0.5f;
+            zombieAgent.isStopped = false;
             state = State.Chasing;
         }
     }

@@ -14,7 +14,7 @@ public class ElvenStaff : Weapon
 
     private void Start()
     {
-        //playerCamera = GetComponent<Camera>();
+        playerCamera = GetComponent<Camera>();
         laserLine = GetComponent<LineRenderer>();
 
         ammo = 0;
