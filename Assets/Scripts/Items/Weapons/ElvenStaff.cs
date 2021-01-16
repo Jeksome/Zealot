@@ -14,35 +14,17 @@ public class ElvenStaff : Weapon
 
     private void Start()
     {
-        playerCamera = GetComponent<Camera>();
         laserLine = GetComponent<LineRenderer>();
 
-        ammo = 0;
-        maxAmmo = 50;
         fireRate = 1;
         hitForce = 100f;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && ammo > 0)
+        if (Input.GetMouseButtonDown(0) && PlayerCharacter.instance.health > 0)
         {
             Shoot();
-        }
-
-        if (ammo > maxAmmo)
-        {
-            ammo = 50;
-            Debug.Log("Maximum ammo");
-        }
-        else if (ammo <= 0)
-        {
-            ammo = 0;
-        }
-
-        if (ammo > 0)
-        {
-            ammoValue.text = "Crystals:  " + ammo.ToString();
         }
     }
 
@@ -56,9 +38,8 @@ public class ElvenStaff : Weapon
         {
             StartCoroutine(ShotEffect());
             laserLine.SetPosition(0, weaponTip.position);
-            ammo -= 1;
             weaponDamage = Random.Range(1, 3);
-            Debug.Log($"your ammo is {ammo} and damage is {weaponDamage}");
+            PlayerCharacter.instance.Hurt(weaponDamage);
             
             if (Physics.Raycast(ray, out hit))
             {
@@ -82,10 +63,9 @@ public class ElvenStaff : Weapon
         }
     }
 
-    public void IncreaseAmmo(int addAmmo)
+    public void IncreasePlayerHealth(int healingAmount)
     {
-        ammo += addAmmo;
-        Debug.Log($"Your ammo increased by {addAmmo} and is {ammo} now");
+        PlayerCharacter.instance.Heal(healingAmount);
     }
 
     private void ProjectileLaunch()

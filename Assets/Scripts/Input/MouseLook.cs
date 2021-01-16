@@ -56,7 +56,7 @@ public class MouseLook : MonoBehaviour
                     Debug.Log($"You picked up {itemGrabbed}");
                     itemGrabbed.SetActive(false);
                     ElvenStaff elvenStaff = FindObjectOfType<ElvenStaff>();
-                    elvenStaff.IncreaseAmmo(Random.Range(10, 15));
+                    elvenStaff.IncreasePlayerHealth(Random.Range(10, 15));
 
                     //FIX THIS
                     

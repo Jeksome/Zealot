@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: TranslucentCrystalv04Gamma
   m_Shader: {fileID: 4800000, guid: 39fe729f5dcad0d41bc1d8df009668cb, type: 3}
   m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP _NORMALMAP
@@ -114,7 +115,7 @@ Material:
     - _TransNormalDistortion: 0.2
     - _TransScattering: 7.5
     - _TransShadow: 0.9
-    - _Translucency: 10
+    - _Translucency: 0
     - _TranslucencyMaskPower: 1
     - _UVSec: 0
     - _ZWrite: 1

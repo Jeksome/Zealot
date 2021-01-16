@@ -96,24 +96,24 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissionPower: 4
+    - _EmissionPower: 2.9
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Metallic: 0.25
+    - _Metallic: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RampEnabled: 0
     - _RampInverted: 0
-    - _Smoothness: 1
+    - _Smoothness: 0.98
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _TransAmbient: 1
     - _TransDirect: 1
-    - _TransNormalDistortion: 0.1
-    - _TransScattering: 10
+    - _TransNormalDistortion: 0
+    - _TransScattering: 1
     - _TransShadow: 0.9
     - _Translucency: 0
     - _TranslucencyMaskPower: 1
@@ -123,6 +123,6 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorTint: {r: 1, g: 0.24264705, b: 0.6970591, a: 1}
-    - _ColorTint1: {r: 0.2028302, g: 1, b: 0.9836645, a: 1}
-    - _ColorTint2: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0.5615188, b: 0.7169812, a: 0}
+    - _ColorTint1: {r: 0, g: 0.9165388, b: 0.9245283, a: 1}
+    - _ColorTint2: {r: 0.7989943, g: 0.990566, b: 0.95126927, a: 1}
+    - _EmissionColor: {r: 0, g: 0.7176471, b: 0.65348804, a: 0}
