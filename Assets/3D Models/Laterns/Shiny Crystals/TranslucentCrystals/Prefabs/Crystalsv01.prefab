@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4237741520885958}
-  m_Layer: 8
+  - component: {fileID: 645624019}
+  m_Layer: 9
   m_Name: Crystalsv01
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: Ammo
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -23,9 +24,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1011319553682498}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children:
   - {fileID: 4697294963431438}
   - {fileID: 4655642382454178}
@@ -34,9 +35,23 @@ Transform:
   - {fileID: 4675045533705072}
   - {fileID: 4475312006456518}
   - {fileID: 4468722294924902}
+  - {fileID: 7954953644001766353}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &645624019
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011319553682498}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.546633, y: 4.1696386, z: 4.6105576}
+  m_Center: {x: 0.045177937, y: 1.5848193, z: 0.27986526}
 --- !u!1 &1074589251595736
 GameObject:
   m_ObjectHideFlags: 0
@@ -48,7 +63,7 @@ GameObject:
   - component: {fileID: 4655642382454178}
   - component: {fileID: 33048855791722774}
   - component: {fileID: 23395018531514464}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BetterCrystal01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +110,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 416d15cd169c5a0468b8346abad16527, type: 2}
+  - {fileID: 2100000, guid: d6e4b99a74234c647aecaf9717d11c1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -127,7 +142,7 @@ GameObject:
   - component: {fileID: 4475312006456518}
   - component: {fileID: 33724442212657158}
   - component: {fileID: 23261083003119392}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BetterCrystal01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +189,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 416d15cd169c5a0468b8346abad16527, type: 2}
+  - {fileID: 2100000, guid: d6e4b99a74234c647aecaf9717d11c1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,7 +221,7 @@ GameObject:
   - component: {fileID: 4468722294924902}
   - component: {fileID: 33028161090443038}
   - component: {fileID: 23948506087017330}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BetterCrystal01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +268,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 416d15cd169c5a0468b8346abad16527, type: 2}
+  - {fileID: 2100000, guid: d6e4b99a74234c647aecaf9717d11c1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -285,7 +300,7 @@ GameObject:
   - component: {fileID: 4697294963431438}
   - component: {fileID: 33798654750209680}
   - component: {fileID: 23335987655133246}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BetterCrystal01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +347,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 416d15cd169c5a0468b8346abad16527, type: 2}
+  - {fileID: 2100000, guid: d6e4b99a74234c647aecaf9717d11c1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -364,7 +379,7 @@ GameObject:
   - component: {fileID: 4381029874358218}
   - component: {fileID: 33377767132401976}
   - component: {fileID: 23599787180128874}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BetterCrystal01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -411,7 +426,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 416d15cd169c5a0468b8346abad16527, type: 2}
+  - {fileID: 2100000, guid: d6e4b99a74234c647aecaf9717d11c1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -443,7 +458,7 @@ GameObject:
   - component: {fileID: 4675045533705072}
   - component: {fileID: 33402963182339716}
   - component: {fileID: 23625064347590102}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BetterCrystal01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,7 +505,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 416d15cd169c5a0468b8346abad16527, type: 2}
+  - {fileID: 2100000, guid: d6e4b99a74234c647aecaf9717d11c1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -522,7 +537,7 @@ GameObject:
   - component: {fileID: 4068615723321166}
   - component: {fileID: 33423173944382294}
   - component: {fileID: 23921601753712096}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BetterCrystal01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -569,7 +584,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 416d15cd169c5a0468b8346abad16527, type: 2}
+  - {fileID: 2100000, guid: d6e4b99a74234c647aecaf9717d11c1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -590,3 +605,118 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1001 &1386263813
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4237741520885958}
+    m_Modifications:
+    - target: {fileID: 429164327526582087, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_Name
+      value: BlueCrystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 429164327526582087, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453010108945793288, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453010108945793288, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 0.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453010108945793288, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_Range
+      value: 10.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453010108945793288, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453010108945793288, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.97647065
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453010108945793288, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.23529413
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453010108945793288, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.2392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eb9d8a8854aee1749b0df38db327b247, type: 3}
+--- !u!4 &7954953644001766353 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7954953645316644564, guid: eb9d8a8854aee1749b0df38db327b247,
+    type: 3}
+  m_PrefabInstance: {fileID: 1386263813}
+  m_PrefabAsset: {fileID: 0}

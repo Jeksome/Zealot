@@ -587,6 +587,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3095270377931777224}
+  - component: {fileID: 962374174}
   m_Layer: 0
   m_Name: Base HumanPelvis
   m_TagString: Untagged
@@ -611,6 +612,18 @@ Transform:
   m_Father: {fileID: 578376449398627443}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &962374174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836615893786013965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbf4c046976837a43a6817e661d2de2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1840469243636615951
 GameObject:
   m_ObjectHideFlags: 0
@@ -1667,10 +1680,11 @@ GameObject:
   - component: {fileID: 578376449398627443}
   - component: {fileID: 7389507112651452681}
   - component: {fileID: 7740450949815136166}
-  - component: {fileID: 2672083189254929280}
+  - component: {fileID: 874780788}
   - component: {fileID: 8701536150543832401}
   - component: {fileID: 832004900}
   - component: {fileID: 832004901}
+  - component: {fileID: 874780792}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -1738,10 +1752,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af34e8b02d84404e96c09a365c9ffba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   bleedEffect: {fileID: 1000013169864706, guid: e5a3d6da48298a0458c1990f58c27069,
     type: 3}
-  target: {fileID: 0}
---- !u!114 &2672083189254929280
+--- !u!114 &874780788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1794,8 +1812,30 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3617828, y: 2.4777002, z: 1.6000018}
+  m_Size: {x: 6.71, y: 2.4777002, z: 6.35}
   m_Center: {x: 0.06787502, y: 0.7388501, z: -0.008458813}
+--- !u!195 &874780792
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4493914613880827488}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.6
+  m_Speed: 1.5
+  m_Acceleration: 3.5
+  avoidancePriority: 50
+  m_AngularSpeed: 999
+  m_StoppingDistance: 0.5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4710940672626480558
 GameObject:
   m_ObjectHideFlags: 0

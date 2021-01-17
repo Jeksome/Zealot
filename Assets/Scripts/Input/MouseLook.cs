@@ -9,8 +9,10 @@ public class MouseLook : MonoBehaviour
     private float xRotation = 0f; 
     private float mouseSens = 300f;
     private Camera playerCamera;
-    public GameObject elvenstaff;
+    public GameObject staff;
     private int rayLenght = 3;
+
+    public enum Item {Door, LockedDoor, Key, Book, Staff, Ammo}
 
     void Start()
     {
@@ -41,36 +43,37 @@ public class MouseLook : MonoBehaviour
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
+            Item item = new Item();
+
+            switch (item)
+            {
+                case Item.Ammo:
+
+                    break;
+            }
+
             if (Physics.Raycast(ray, out hit, rayLenght))
             {
                 if (hit.collider.tag == "Staff")
                 {
                     GameObject itemGrabbed = hit.collider.gameObject;
-                    Debug.Log($"You picked up {itemGrabbed}");
-                    elvenstaff.SetActive(true);
+                    staff.SetActive(true);
                     itemGrabbed.SetActive(false);
                 }
                 else if (hit.collider.tag == "Ammo")
                 {
                     GameObject itemGrabbed = hit.collider.gameObject;
-                    Debug.Log($"You picked up {itemGrabbed}");
                     itemGrabbed.SetActive(false);
-                    ElvenStaff elvenStaff = FindObjectOfType<ElvenStaff>();
-                    elvenStaff.IncreasePlayerHealth(Random.Range(10, 15));
-
-                    //FIX THIS
-                    
-                    //MAKE ELVENSTAFF SINGLETON OR MAKE ANOTHER CLASS FOR AMMO
+                    PlayerCharacter player = GameObject.Find("Player").GetComponent<PlayerCharacter>();
+                    player.Heal(Random.Range(5, 10));
                 }
                 else if (hit.collider.tag == "Door")
                 {
-                    Debug.Log($"You staring at {hit.collider.gameObject}");
                     WoodenDoor woodenDoor = hit.collider.gameObject.GetComponent<WoodenDoor>();
                     woodenDoor.OpenDoor();
                 }
                 else if (hit.collider.tag == "LockedDoor")
                 {
-                    Debug.Log($"You staring at {hit.collider.gameObject.name}");
                     LockedDoor lockedDoor = hit.collider.gameObject.GetComponent<LockedDoor>();
                     lockedDoor.OpenDoor();
                 }
@@ -81,7 +84,6 @@ public class MouseLook : MonoBehaviour
                 }
                 else if (hit.collider.tag == "Book")
                 {
-                    Debug.Log($"You are staring at {hit.collider.gameObject.name}");
                     Book book = hit.collider.gameObject.GetComponent<Book>();
                     book.ReadBook();
                 }

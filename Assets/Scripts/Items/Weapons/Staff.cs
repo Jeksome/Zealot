@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ElvenStaff : Weapon
+public class Staff : Weapon
 {
     public Transform weaponTip;
     public TMP_Text ammoValue;
@@ -11,21 +11,22 @@ public class ElvenStaff : Weapon
     private LineRenderer laserLine;
     private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);
     private float nextFire;
+    private GameObject player;
+
+    public LayerMask enemyLayer;
 
     private void Start()
     {
         laserLine = GetComponent<LineRenderer>();
-
+        player = GameObject.Find("Player");
         fireRate = 1;
         hitForce = 100f;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && PlayerCharacter.instance.health > 0)
-        {
+        if (Input.GetMouseButtonDown(0) && player.GetComponent<PlayerCharacter>().currentHealth > 0)
             Shoot();
-        }
     }
 
     public override void Shoot()
@@ -39,34 +40,29 @@ public class ElvenStaff : Weapon
             StartCoroutine(ShotEffect());
             laserLine.SetPosition(0, weaponTip.position);
             weaponDamage = Random.Range(1, 3);
-            PlayerCharacter.instance.Hurt(weaponDamage);
+            player.GetComponent<PlayerCharacter>().Hurt(weaponDamage);
             
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, enemyLayer))
             {
                 nextFire = Time.time + fireRate;
-                GameObject hitObject = hit.transform.gameObject;
-                HitDetector target = hitObject.GetComponent<HitDetector>();
-                laserLine.SetPosition(1, hit.point);
-                if (target != null)
+                HitDetector hitObject = hit.transform.gameObject.GetComponent<HitDetector>();               
+                
+                if (hitObject != null)
                 {
                     ProjectileLaunch();
-                    target.HitReaction(hit.point, transform.rotation, weaponDamage);
+                    laserLine.SetPosition(1, hit.point);
+                    hitObject.HitReaction(hit.point, transform.rotation, weaponDamage);
                     hit.rigidbody.AddForce(-hit.normal * hitForce);
                 }
                 else
                 {
                     laserLine.SetPosition(1, hit.point);
                     ProjectileLaunch();
-                    //TODO StartCoroutine(walldamage(hit.point));
                 }
             }
         }
     }
 
-    public void IncreasePlayerHealth(int healingAmount)
-    {
-        PlayerCharacter.instance.Heal(healingAmount);
-    }
 
     private void ProjectileLaunch()
     {

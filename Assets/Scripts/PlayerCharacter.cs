@@ -5,7 +5,6 @@ using TMPro;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    public static PlayerCharacter instance = null;
     public TMP_Text healthAmount;
 
     public Material material1;
@@ -17,67 +16,78 @@ public class PlayerCharacter : MonoBehaviour
     public GameObject eye2;
     public GameObject eyeGlow1;
     public GameObject eyeGlow2;
+    public bool fNotPressed;
 
-    public int health;
+    public int currentHealth, maxHealth, minHealth;
     private bool isAlive;
     void Start()
     {
-        if (instance == null)
-        {
-            instance = this; 
-        }
-        else if (instance == this)
-        { 
-            Destroy(gameObject); 
-        }
-
-        health = 100;
+        maxHealth = 100;
+        currentHealth = 99;
         isAlive = true;
+        fNotPressed = true;
     }
 
     void Update()
     {
-        if (health < 1 && isAlive)
+        if (currentHealth < 1 && isAlive)
         {
             Death();
             isAlive = false;
         }
-        healthAmount.text = "Health: " + health.ToString();
+        healthAmount.text = "Health: " + currentHealth.ToString();
 
         Renderer rend = eye1.GetComponent<Renderer>();
         Renderer rend2 = eye2.GetComponent<Renderer>();
         Light light = eyeGlow1.GetComponent<Light>();
         Light light2 = eyeGlow2.GetComponent<Light>();
 
-        if (health < 101 && health > 75)
-        {
-            rend.material = material2;
-            rend2.material = material2;
-            light.color = new Color(0, 1, 0.7f);
-            light2.color = new Color(0, 1, 0.7f);
+        if (Input.GetKeyDown(KeyCode.F) && isAlive && fNotPressed)
+        {  
+            StartCoroutine(FlashLight());
+            
         }
-        else if (health < 74 && health > 50)
+
+        IEnumerator FlashLight()
+        {
+            fNotPressed = false;
+            light.range *= 12;
+            light.intensity += 0.4f;
+            yield return new WaitForSeconds(2f);
+            light.range /= 12;
+            light.intensity -= 0.4f;
+            fNotPressed = true;
+        }
+
+        if (currentHealth < 101 && currentHealth > 75)
         {
             rend.material = material1;
             rend2.material = material1;
             light.color = new Color(0, 0.6f, 0.9f);
             light2.color = new Color(0, 0.6f, 0.9f);
         }
-        else if (health < 49 && health > 25)
+        else if (currentHealth < 74 && currentHealth > 50)
+        {
+            rend.material = material2;
+            rend2.material = material2;
+            light.color = new Color(0, 1, 1f);
+            light2.color = new Color(0, 1, 1f);
+        }
+        else if (currentHealth < 49 && currentHealth > 25)
         {
             rend.material = material3;
             rend2.material = material3;
             light.color = new Color(0.8f, 0.5f, 0.6f);
             light2.color = new Color(0.8f, 0.5f, 0.6f);
         }
-        else if (health < 24 && health > 10)
+        else if (currentHealth < 24 && currentHealth > 10)
         {
             rend.material = material4;
             rend2.material = material4;
             light.color = new Color(1, 0.1f, 0);
             light2.color = new Color(1, 0.1f, 0);
         }
-        else if(health < 10)
+        else if(currentHealth < 10)
         {
             rend.material = material5;
             rend2.material = material5;
@@ -88,18 +98,18 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Hurt(int damage)
     {
-        health -= damage;
-        Debug.Log("Health: " + health);
+        currentHealth -= damage;
+        Debug.Log("Health: " + currentHealth);
     }
 
     public void Heal(int healingAmount)
     {
-        health += healingAmount;
-        Debug.Log("Health: " + health);
+        currentHealth += healingAmount;
+        Debug.Log("Health: " + currentHealth);
     }
 
     public void Death()
     {
-        Debug.Log("You are dead");
+        Debug.Log("You are dead LOL");
     }
 }
