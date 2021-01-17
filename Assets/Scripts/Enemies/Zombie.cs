@@ -15,6 +15,7 @@ public class Zombie : MonoBehaviour
     private GameObject player;
     private float attackRate;
     private float nextAttackTime;
+    private float distanceToPlayer;
     private int attackDamage;
     private int currentHealth, minHealth;
    
@@ -38,12 +39,16 @@ public class Zombie : MonoBehaviour
         if (currentHealth < minHealth)
             state = State.Dead;
 
+        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
         switch (state)
         {
             default:
             case State.Patroling:
                 if (!zombieAgent.pathPending && zombieAgent.remainingDistance < 0.5f)
-                    MoveToNextWaypoint();              
+                    MoveToNextWaypoint();
+                if (distanceToPlayer < 10f)
+                    state = State.Chasing;
                 break;
             case State.Chasing:
                 zombieAgent.speed = 3;
@@ -72,16 +77,8 @@ public class Zombie : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        float distance = Vector3.Distance(transform.position, player.transform.position);
-
-        if (other.gameObject == player && distance < 7)
-        {
-            state = State.Chasing;
-            if (other.gameObject == player && distance < 2.8f)
+            if (other.gameObject == player)
                 state = State.Attacking;
-            else if (other.gameObject == player && distance >= 2.8f)
-                state = State.Chasing;
-        }
     }
 
     private void OnTriggerExit(Collider other)

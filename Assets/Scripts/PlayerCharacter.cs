@@ -50,6 +50,7 @@ public class PlayerCharacter : MonoBehaviour
 
         IEnumerator FlashLight()
         {
+            currentHealth -= 1;
             fNotPressed = false;
             light.range *= 12;
             light.intensity += 0.4f;
