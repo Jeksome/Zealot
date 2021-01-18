@@ -5,11 +5,11 @@ using UnityEngine.AI;
 
 public class Zombie : MonoBehaviour
 {
-    public enum State {Patroling, Chasing, Attacking, Hitting, Dead, InHeaven}
-    public State state;
     public Transform[] waypoints;
     public GameObject bleedEffect;
 
+    private enum State {Patroling, Chasing, Attacking, Hitting, Dead, InHeaven}
+    private State state;
     private Animator zombieAnim;
     private NavMeshAgent zombieAgent;
     private GameObject player;
@@ -18,6 +18,7 @@ public class Zombie : MonoBehaviour
     private float distanceToPlayer;
     private int attackDamage;
     private int currentHealth, minHealth;
+    private bool isChasing; 
    
     void Start()
     {
@@ -38,6 +39,11 @@ public class Zombie : MonoBehaviour
     {
         if (currentHealth < minHealth)
             state = State.Dead;
+        if (currentHealth < 5 && currentHealth > 0 && !isChasing)
+        {
+            state = State.Chasing;
+            isChasing = true;
+        }
 
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
@@ -47,7 +53,7 @@ public class Zombie : MonoBehaviour
             case State.Patroling:
                 if (!zombieAgent.pathPending && zombieAgent.remainingDistance < 0.5f)
                     MoveToNextWaypoint();
-                if (distanceToPlayer < 10f)
+                if (distanceToPlayer < 7.5f)
                     state = State.Chasing;
                 break;
             case State.Chasing:

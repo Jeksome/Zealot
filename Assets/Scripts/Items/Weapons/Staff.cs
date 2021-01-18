@@ -5,20 +5,21 @@ using TMPro;
 
 public class Staff : Weapon
 {
-    public Transform weaponTip;
-    public TMP_Text ammoValue;
-    public Camera playerCamera;
+    public GameObject projectilePrefab;
+    [SerializeField] private LayerMask enemyLayer;
+    private readonly WaitForSeconds shotDuration = new WaitForSeconds(0.07f);
+    private Transform weaponTip;
+    private Camera playerCamera;
     private LineRenderer laserLine;
-    private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);
-    private float nextFire;
     private GameObject player;
-
-    public LayerMask enemyLayer;
+    private float nextFire;
 
     private void Start()
     {
-        laserLine = GetComponent<LineRenderer>();
+        weaponTip = GameObject.Find("StaffTip").GetComponent<Transform>();
+        playerCamera = GameObject.Find("PlayerHead").GetComponent<Camera>();
         player = GameObject.Find("Player");
+        laserLine = GetComponent<LineRenderer>();
         fireRate = 1;
         hitForce = 100f;
     }
@@ -27,6 +28,7 @@ public class Staff : Weapon
     {
         if (Input.GetMouseButtonDown(0) && player.GetComponent<PlayerCharacter>().currentHealth > 0)
             Shoot();
+        //projectilePrefab.GetComponent<Renderer>().material = player.GetComponent<PlayerCharacter>().eye1.GetComponent<Renderer>().material;
     }
 
     public override void Shoot()
@@ -49,24 +51,28 @@ public class Staff : Weapon
                 
                 if (hitObject != null)
                 {
-                    ProjectileLaunch();
                     laserLine.SetPosition(1, hit.point);
                     hitObject.HitReaction(hit.point, transform.rotation, weaponDamage);
                     hit.rigidbody.AddForce(-hit.normal * hitForce);
+                    ProjectileLaunch(hit.point);
                 }
                 else
                 {
                     laserLine.SetPosition(1, hit.point);
-                    ProjectileLaunch();
+                    ProjectileLaunch(hit.point);
+                    
                 }
+
             }
         }
     }
 
-
-    private void ProjectileLaunch()
+    private void ProjectileLaunch(Vector3 target)
     {
-        //TODO missile
+        GameObject projectile = Instantiate(projectilePrefab, weaponTip.transform.position, Quaternion.identity);
+        Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
+        projectileRb.velocity = (target - playerCamera.transform.position).normalized * 22f;
+        projectileRb.rotation = Quaternion.LookRotation(projectileRb.velocity);
     }
 
     private IEnumerator ShotEffect()

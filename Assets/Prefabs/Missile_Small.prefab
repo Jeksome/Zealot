@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1578218290037457401}
   - component: {fileID: 1797210688188938912}
   - component: {fileID: 8242900240487536484}
-  - component: {fileID: 3003133548432913166}
+  - component: {fileID: 9207260064587876768}
+  - component: {fileID: 5760946531647839813}
   m_Layer: 0
   m_Name: Missile_Small
   m_TagString: Untagged
@@ -90,11 +91,11 @@ SphereCollider:
   m_GameObject: {fileID: 7853066328122420114}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3003133548432913166
+--- !u!114 &9207260064587876768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,8 +104,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 7853066328122420114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6949383ff070a448982a3ee8f240597, type: 3}
+  m_Script: {fileID: 11500000, guid: a9e756bb75478a246827c83600a0640b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missileSpeed: 100
   missileDamage: 1
+--- !u!54 &5760946531647839813
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853066328122420114}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

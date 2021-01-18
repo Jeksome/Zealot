@@ -12,7 +12,16 @@ public class HitDetector : MonoBehaviour
         {
             zombie.RecieveDamage(damage);
             zombie.Bleed(pos, rot);
-            zombie.state = Zombie.State.Chasing;
         }
     }
+    /*private void OnCollisionEnter(Collision collision)
+    {
+        Target target = collider.GetComponent<Target>();
+        if (target != null)
+        {
+            //hit target 
+            target.DAMAGE();
+            Destroy(gameObject);
+        }
+    }*/
 }
