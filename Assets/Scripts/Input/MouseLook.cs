@@ -96,6 +96,6 @@ public class MouseLook : MonoBehaviour
         int size = 12;
         float posX = playerCamera.pixelWidth / 2 - size / 4;
         float posY = playerCamera.pixelHeight / 2 - size / 2;
-        GUI.Label(new Rect(posX, posY, size, size), "*");
+        GUI.Label(new Rect(posX, posY, size, size), "");
     }
 }

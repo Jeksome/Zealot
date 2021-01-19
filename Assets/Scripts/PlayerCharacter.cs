@@ -23,7 +23,7 @@ public class PlayerCharacter : MonoBehaviour
     void Start()
     {
         maxHealth = 100;
-        currentHealth = 99;
+        currentHealth = 15;
         isAlive = true;
         fNotPressed = true;
     }

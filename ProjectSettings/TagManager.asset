@@ -10,6 +10,7 @@ TagManager:
   - Staff
   - LockedDoor
   - Book
+  - Enemy
   layers:
   - Default
   - TransparentFX

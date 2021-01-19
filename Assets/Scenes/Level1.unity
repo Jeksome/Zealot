@@ -6556,6 +6556,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 394661024}
     m_Modifications:
+    - target: {fileID: 147057433, guid: 5f9db36cd0a7a6845bab17d99e4f6afa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1015108221, guid: 5f9db36cd0a7a6845bab17d99e4f6afa, type: 3}
       propertyPath: ammoValue
       value: 
@@ -6593,9 +6597,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 29.142002
       objectReference: {fileID: 0}
+    - target: {fileID: 1417290740, guid: 5f9db36cd0a7a6845bab17d99e4f6afa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.203
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417290740, guid: 5f9db36cd0a7a6845bab17d99e4f6afa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.495
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417290740, guid: 5f9db36cd0a7a6845bab17d99e4f6afa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.269
+      objectReference: {fileID: 0}
     - target: {fileID: 1417290741, guid: 5f9db36cd0a7a6845bab17d99e4f6afa, type: 3}
       propertyPath: m_Name
       value: StaffTip
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730041098, guid: 5f9db36cd0a7a6845bab17d99e4f6afa, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730041102, guid: 5f9db36cd0a7a6845bab17d99e4f6afa, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4284405733057211440, guid: 5f9db36cd0a7a6845bab17d99e4f6afa,
         type: 3}
@@ -6662,7 +6686,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -25.362976
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1015108220, guid: 5f9db36cd0a7a6845bab17d99e4f6afa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5f9db36cd0a7a6845bab17d99e4f6afa, type: 3}
 --- !u!1001 &729915488
 PrefabInstance:
@@ -19837,6 +19862,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 394661024}
     m_Modifications:
+    - target: {fileID: 832004900, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 832004900, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
+      propertyPath: m_Mass
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 578376449398627443, guid: 6dc4cf4496348884d8ee27743ae38562,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19896,6 +19929,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Zombie
+      objectReference: {fileID: 0}
+    - target: {fileID: 4493914613880827488, guid: 6dc4cf4496348884d8ee27743ae38562,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 7740450949815136166, guid: 6dc4cf4496348884d8ee27743ae38562,
         type: 3}

@@ -75,6 +75,7 @@ public class Zombie : MonoBehaviour
                 zombieAnim.SetBool("isKilled", true);
                 zombieAgent.isStopped = true;
                 state = State.InHeaven;
+                gameObject.GetComponent<CapsuleCollider>().enabled = false;
                 break;
             case State.InHeaven:
                 break;

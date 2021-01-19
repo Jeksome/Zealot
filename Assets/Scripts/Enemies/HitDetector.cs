@@ -14,14 +14,4 @@ public class HitDetector : MonoBehaviour
             zombie.Bleed(pos, rot);
         }
     }
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        Target target = collider.GetComponent<Target>();
-        if (target != null)
-        {
-            //hit target 
-            target.DAMAGE();
-            Destroy(gameObject);
-        }
-    }*/
 }
