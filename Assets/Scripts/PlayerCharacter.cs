@@ -1,12 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    public TMP_Text healthAmount;
-
     public Material material1;
     public Material material2;
     public Material material3;
@@ -23,7 +20,7 @@ public class PlayerCharacter : MonoBehaviour
     void Start()
     {
         maxHealth = 100;
-        currentHealth = 15;
+        currentHealth = 65;
         isAlive = true;
         fNotPressed = true;
     }
@@ -35,7 +32,6 @@ public class PlayerCharacter : MonoBehaviour
             Death();
             isAlive = false;
         }
-        healthAmount.text = "Health: " + currentHealth.ToString();
 
         Renderer rend = eye1.GetComponent<Renderer>();
         Renderer rend2 = eye2.GetComponent<Renderer>();
@@ -44,8 +40,7 @@ public class PlayerCharacter : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F) && isAlive && fNotPressed)
         {  
-            StartCoroutine(FlashLight());
-            
+            StartCoroutine(FlashLight());           
         }
 
         IEnumerator FlashLight()

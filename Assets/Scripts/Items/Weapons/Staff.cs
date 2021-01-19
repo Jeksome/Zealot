@@ -6,7 +6,6 @@ public class Staff : Weapon
 {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private LayerMask enemyLayer;
-    private readonly WaitForSeconds shotDuration = new WaitForSeconds(0.07f);
     private Transform weaponTip;
     private Camera playerCamera;
     private GameObject player;
@@ -15,7 +14,7 @@ public class Staff : Weapon
     private void Start()
     {
         weaponTip = GameObject.Find("StaffTip").GetComponent<Transform>();
-        playerCamera = GameObject.Find("PlayerHead").GetComponent<Camera>();
+        playerCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
         player = GameObject.Find("Player");
     }
 
@@ -27,6 +26,7 @@ public class Staff : Weapon
 
     public override void Shoot()
     {
+        Debug.Log("SHOOTING");
         Vector3 rayOrigin = new Vector3(playerCamera.pixelWidth / 2, playerCamera.pixelHeight / 2, 0);
         RaycastHit hit;
         Ray ray = playerCamera.ScreenPointToRay(rayOrigin);

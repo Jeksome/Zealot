@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
     public GameObject forMaterial;
     public GameObject forGlow;
     public GameObject hitEffect;
+    public GameObject smallHitEffect;
     Color playerColor;
     private void Start()
     {
@@ -29,7 +30,7 @@ public class Projectile : MonoBehaviour
     private void Update()
     {  
         projectileRb.rotation = Quaternion.LookRotation(projectileRb.velocity);
-        projectileRb.velocity = projectileVelocity.normalized * 22f;
+        projectileRb.velocity = projectileVelocity.normalized * 28f;
     }
 
     private void OnCollisionEnter(Collision target)
@@ -37,7 +38,8 @@ public class Projectile : MonoBehaviour
         HitDetector hitObject = target.transform.gameObject.GetComponent<HitDetector>();
         ContactPoint[] contacts = new ContactPoint[5];
         int numContacts = target.GetContacts(contacts);
-        
+        forGlow.GetComponent<Light>().intensity = 1;
+
         for (int i = 0; i < numContacts; i++)
         {
             if(contacts[i].otherCollider.gameObject.CompareTag("Enemy"))
@@ -48,7 +50,12 @@ public class Projectile : MonoBehaviour
                 Destroy(gameObject);
                 Destroy(effect, 1f);
             }
-            else { Destroy(gameObject, 0.1f); }
+            else 
+            {          
+                Destroy(gameObject, 0.15f);
+                GameObject effect = Instantiate(smallHitEffect, contacts[i].point, transform.rotation);
+                Destroy(effect, 1f);
+            }
         }
     }
 }

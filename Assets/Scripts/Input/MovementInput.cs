@@ -5,6 +5,7 @@ public class MovementInput : MonoBehaviour
 {
     [SerializeField] private LayerMask groundMask;
     private CharacterController playerController;
+    private CameraBob headBob;
     private Transform groundCheck;
     private const float jumpHeight = 1f;
     private const float groundDistance = 0.2f;
@@ -22,6 +23,7 @@ public class MovementInput : MonoBehaviour
         normalScale = transform.localScale;
         playerController = GetComponent<CharacterController>();
         groundCheck = GameObject.Find("GroundCheck").transform;
+        headBob = GameObject.Find("PlayerHead").GetComponent<CameraBob>();       
     }
 
     void Update()
@@ -33,6 +35,9 @@ public class MovementInput : MonoBehaviour
         movement = Vector3.ClampMagnitude(movement, movingSpeed) * Time.deltaTime;
         movement = transform.TransformDirection(movement);
         playerController.Move(movement);
+
+        if (isSprinting) headBob.isRunning = true;
+        else if (!isSprinting) headBob.isRunning = false;
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
             StartCrouch();
