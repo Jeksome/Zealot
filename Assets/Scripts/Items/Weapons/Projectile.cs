@@ -30,7 +30,7 @@ public class Projectile : MonoBehaviour
     private void Update()
     {  
         projectileRb.rotation = Quaternion.LookRotation(projectileRb.velocity);
-        projectileRb.velocity = projectileVelocity.normalized * 28f;
+        projectileRb.velocity = projectileVelocity.normalized * 32f;
     }
 
     private void OnCollisionEnter(Collision target)

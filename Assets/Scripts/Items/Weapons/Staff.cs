@@ -5,17 +5,19 @@ using UnityEngine;
 public class Staff : Weapon
 {
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private LayerMask enemyLayer;
     private Transform weaponTip;
     private Camera playerCamera;
     private GameObject player;
+    private Animator staffAnimator;
     private float nextFire;
 
     private void Start()
     {
+        staffAnimator = GetComponent<Animator>();
         weaponTip = GameObject.Find("StaffTip").GetComponent<Transform>();
         playerCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
         player = GameObject.Find("Player");
+        fireRate = 1.2f;
     }
 
     private void Update()
@@ -26,7 +28,6 @@ public class Staff : Weapon
 
     public override void Shoot()
     {
-        Debug.Log("SHOOTING");
         Vector3 rayOrigin = new Vector3(playerCamera.pixelWidth / 2, playerCamera.pixelHeight / 2, 0);
         RaycastHit hit;
         Ray ray = playerCamera.ScreenPointToRay(rayOrigin);
@@ -34,12 +35,13 @@ public class Staff : Weapon
         if (Time.time > nextFire)
         {
             int weaponDamage = Random.Range(1, 3);
-            player.GetComponent<PlayerCharacter>().Hurt(weaponDamage);
+            player.GetComponent<PlayerCharacter>().Hurt(weaponDamage);           
             
-            if (Physics.Raycast(ray, out hit, enemyLayer))
+            if (Physics.Raycast(ray, out hit))
             {
                 nextFire = Time.time + fireRate;
                 ProjectileLaunch(hit.point);
+                staffAnimator.SetTrigger("Shoot");
             }
         }
     }

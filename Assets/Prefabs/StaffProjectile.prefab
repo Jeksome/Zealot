@@ -102,8 +102,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6504649477819525573}
   - component: {fileID: 342657725483624022}
-  - component: {fileID: -7430081641387608282}
   - component: {fileID: 8608210462073462497}
+  - component: {fileID: 8957953468041328907}
   m_Layer: 10
   m_Name: StaffProjectile
   m_TagString: Untagged
@@ -143,20 +143,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!136 &-7430081641387608282
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6505926585929702721}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1.8088939
-  m_Height: 4.4543543
-  m_Direction: 1
-  m_Center: {x: 0.12754032, y: 0, z: -0.24938902}
 --- !u!114 &8608210462073462497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +160,19 @@ MonoBehaviour:
   hitEffect: {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9, type: 3}
   smallHitEffect: {fileID: 1000011128802252, guid: 78944aa4978b11643bff275d2bc9e376,
     type: 3}
+--- !u!65 &8957953468041328907
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6505926585929702721}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: -0.71, y: 0.03, z: 4.2}
 --- !u!1 &6507653662619451003
 GameObject:
   m_ObjectHideFlags: 0
