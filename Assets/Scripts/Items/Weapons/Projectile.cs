@@ -13,7 +13,7 @@ public class Projectile : MonoBehaviour
     public GameObject hitEffect;
     public GameObject smallHitEffect;
     Color playerColor;
-    private void Start()
+    private void OnEnable()
     {
         projectileRb = GetComponent<Rigidbody>();
         material = GameObject.Find("Player").GetComponent<PlayerCharacter>().eye1.GetComponent<Renderer>().material;
@@ -46,16 +46,30 @@ public class Projectile : MonoBehaviour
             {
                 int weaponDamage = Random.Range(1, 3);
                 hitObject.HitReaction(contacts[i].point, transform.rotation, weaponDamage);
-                GameObject effect = Instantiate(hitEffect, contacts[i].point, transform.rotation);
-                Destroy(gameObject);
-                Destroy(effect, 1f);
+                GameObject blast = ObjectPooler.SharedInstance.GetPooledObject("ExplosionBig");
+                {
+                    if (blast != null)
+                    {
+                        blast.transform.position = contacts[i].point;
+                        blast.transform.rotation = transform.rotation;
+                        blast.SetActive(true);
+                        StartCoroutine(Fade(blast, 0.15f));
+                    }
+                }
+                StartCoroutine(Fade(gameObject, 0.2f));         
             }
             else 
-            {          
-                Destroy(gameObject, 0.15f);
-                GameObject effect = Instantiate(smallHitEffect, contacts[i].point, transform.rotation);
-                Destroy(effect, 1f);
+            {
+                GameObject blast = ObjectPooler.SharedInstance.GetPooledObject("ExplosionSmall");
+                StartCoroutine(Fade(blast, 0.15f));
+                StartCoroutine(Fade(gameObject, 0.2f));
             }
+        }
+
+        IEnumerator Fade(GameObject effect, float time)
+        {
+            yield return new WaitForSeconds(time);
+            effect.SetActive(false);
         }
     }
 }

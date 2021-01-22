@@ -11,6 +11,9 @@ TagManager:
   - LockedDoor
   - Book
   - Enemy
+  - Missile
+  - ExplosionSmall
+  - ExplosionBig
   layers:
   - Default
   - TransparentFX

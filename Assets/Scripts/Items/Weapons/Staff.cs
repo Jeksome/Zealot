@@ -48,8 +48,14 @@ public class Staff : Weapon
 
     private void ProjectileLaunch(Vector3 target)
     {
-        GameObject projectile = Instantiate(projectilePrefab, weaponTip.transform.position, Quaternion.identity);
+        GameObject project = ObjectPooler.SharedInstance.GetPooledObject("Missile");
+        if (project != null)
+        {
+            project.transform.position = weaponTip.transform.position;
+            project.transform.rotation = Quaternion.identity;
+            project.SetActive(true);
+        }
         Vector3 projectileVelocity = (target - playerCamera.transform.position).normalized * 20f;
-        projectile.GetComponent<Projectile>().GetVelocity(projectileVelocity);
+        project.GetComponent<Projectile>().GetVelocity(projectileVelocity);
     }
 }

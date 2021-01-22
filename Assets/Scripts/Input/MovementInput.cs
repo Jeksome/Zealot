@@ -11,19 +11,15 @@ public class MovementInput : MonoBehaviour
     private const float groundDistance = 0.2f;
     private const float gravity = -9.8f;
     private float movingSpeed = 5.0f;
-    private float horizontalInput, verticalInput;
+    private float horizontalInput, verticalInput; 
     private bool isGrounded, isSprinting;
-
-    private Vector3 crouchScale = new Vector3(1, 0.5f, 1);
-    private Vector3 normalScale;
     private Vector3 velocity;
 
     void Start()
     {
-        normalScale = transform.localScale;
         playerController = GetComponent<CharacterController>();
         groundCheck = GameObject.Find("GroundCheck").transform;
-        headBob = GameObject.Find("PlayerHead").GetComponent<CameraBob>();       
+        headBob = GameObject.Find("PlayerHead").GetComponent<CameraBob>();          
     }
 
     void Update()
@@ -63,15 +59,13 @@ public class MovementInput : MonoBehaviour
     private void StartCrouch()
     {
         movingSpeed /= 2;
-        transform.localScale = crouchScale;
-        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+        playerController.height = playerController.height/2;
     }
 
     private void StopCrouch()
     {
         movingSpeed *= 2;
-        transform.localScale = normalScale;
-        transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        playerController.height = playerController.height * 2;
     }
 
     private IEnumerator Sprint()
