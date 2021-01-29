@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class HitDetector : MonoBehaviour
 {
-    public void HitReaction(Vector3 pos, Quaternion rot, int damage)
+    public void HitReaction(Vector3 pos, Quaternion rot, GameObject target)
     {
-        Zombie zombie = GameObject.Find("Zombie").GetComponent<Zombie>();
-
-        if (zombie != null)
-        {
-            zombie.RecieveDamage(damage);
-            zombie.Bleed(pos, rot);
-        }
+            int damage = Random.Range(1, 3);
+            Enemy enemy = target.GetComponent<Enemy>();
+            enemy.RecieveDamage(damage);
+            enemy.Bleed(pos, rot);  
     }
 }

@@ -14,6 +14,7 @@ TagManager:
   - Missile
   - ExplosionSmall
   - ExplosionBig
+  - Blood
   layers:
   - Default
   - TransparentFX

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DecalDestroyer : MonoBehaviour {
+public class Blood : MonoBehaviour {
 
-	public float lifeTime = 5.0f;
+	private float lifeTime = 1.0f;
 
 	private IEnumerator Start()
 	{
 		yield return new WaitForSeconds(lifeTime);
-		Destroy(gameObject);
+		this.gameObject.SetActive(false);
 	}
 }

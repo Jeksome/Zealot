@@ -42,7 +42,6 @@ public class CameraBob : MonoBehaviour
 
             offset = headTransform.right * horizontalOffset + headTransform.up * verticalOffset;
         }
-
         return offset;
     }
 }

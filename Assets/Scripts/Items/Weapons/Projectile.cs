@@ -16,8 +16,8 @@ public class Projectile : MonoBehaviour
     private void OnEnable()
     {
         projectileRb = GetComponent<Rigidbody>();
-        material = GameObject.Find("Player").GetComponent<PlayerCharacter>().eye1.GetComponent<Renderer>().material;
-        playerColor = GameObject.Find("Player").GetComponent<PlayerCharacter>().eyeGlow1.GetComponent<Light>().color;
+        material = GameObject.Find("Player").GetComponent<PlayerCharacter>().eye.GetComponent<Renderer>().material;
+        playerColor = GameObject.Find("Player").GetComponent<PlayerCharacter>().eyeGlow.GetComponent<Light>().color;
         forMaterial.GetComponent<Renderer>().material = material;
         forGlow.GetComponent<Light>().color = playerColor;
     }
@@ -44,8 +44,8 @@ public class Projectile : MonoBehaviour
         {
             if(contacts[i].otherCollider.gameObject.CompareTag("Enemy"))
             {
-                int weaponDamage = Random.Range(1, 3);
-                hitObject.HitReaction(contacts[i].point, transform.rotation, weaponDamage);
+                
+                hitObject.HitReaction(contacts[i].point, transform.rotation, target.gameObject);
                 GameObject blast = ObjectPooler.SharedInstance.GetPooledObject("ExplosionBig");
                 {
                     if (blast != null)

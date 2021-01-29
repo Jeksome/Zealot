@@ -1,49 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class Zombie : MonoBehaviour
-{
-    public Transform[] waypoints;
-    public GameObject bleedEffect;
-
-    private enum State {Patroling, Chasing, Attacking, Hitting, Dead, InHeaven}
-    private State state;
-    private Animator zombieAnim;
-    private NavMeshAgent zombieAgent;
-    private GameObject player;
-    private float attackRate;
-    private float nextAttackTime;
-    private float distanceToPlayer;
-    private int attackDamage;
-    private int currentHealth, minHealth;
-    private bool isChasing; 
-   
+public class Zombie : Enemy
+{  
     void Start()
     {
         player = GameObject.Find("Player");
-
-        zombieAgent = GetComponent<NavMeshAgent>();
+        enemyAgent = GetComponent<NavMeshAgent>();
+        enemyAnim = GetComponent<Animator>();
+        enemyAnim.SetBool("isWalking", true);
         state = State.Patroling;
-
-        zombieAnim = GetComponent<Animator>();
-        zombieAnim.SetBool("isWalking", true);
 
         currentHealth = 5;
         minHealth = 1;
         attackRate = 0.75f;
+        sightDistance = 7.5f;
     }
 
     void Update()
     {
-        if (currentHealth < minHealth)
+        if (currentHealth < minHealth)                                  
             state = State.Dead;
         if (currentHealth < 5 && currentHealth > 0 && !isChasing)
-        {
-            state = State.Chasing;
-            isChasing = true;
-        }
+          { state = State.Chasing; isChasing = true; }
 
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
@@ -51,29 +30,29 @@ public class Zombie : MonoBehaviour
         {
             default:
             case State.Patroling:
-                if (!zombieAgent.pathPending && zombieAgent.remainingDistance < 0.5f)
+                if (!enemyAgent.pathPending && enemyAgent.remainingDistance < 0.5f)
                     MoveToNextWaypoint();
-                if (distanceToPlayer < 7.5f)
+                if (distanceToPlayer < sightDistance)
                     state = State.Chasing;
                 break;
             case State.Chasing:
-                zombieAgent.speed = 3;
-                zombieAgent.destination = player.transform.position;
-                zombieAnim.SetBool("isRunning", true);
+                enemyAgent.speed = 3;
+                enemyAgent.destination = player.transform.position;
+                enemyAnim.SetBool("isRunning", true);
                 break;
             case State.Attacking:
                 if (nextAttackTime < Time.time)
                 {
                     state = State.Attacking;
-                    zombieAnim.SetBool("isAttacking", true);
-                    zombieAgent.isStopped = true;
+                    enemyAnim.SetBool("isAttacking", true);
+                    enemyAgent.isStopped = true;
                     nextAttackTime = Time.time + attackRate; 
                 }
                 break;
             case State.Dead:
                 currentHealth = 0;
-                zombieAnim.SetBool("isKilled", true);
-                zombieAgent.isStopped = true;
+                enemyAnim.SetBool("isKilled", true);
+                enemyAgent.isStopped = true;
                 state = State.InHeaven;
                 gameObject.GetComponent<CapsuleCollider>().enabled = false;
                 break;
@@ -92,34 +71,16 @@ public class Zombie : MonoBehaviour
     {
         if (other.gameObject == player)
         {
-            zombieAnim.SetBool("isAttacking", false);
-            zombieAgent.isStopped = false;
+            enemyAnim.SetBool("isAttacking", false);
+            enemyAgent.isStopped = false;
             state = State.Chasing;
         }
     }
 
-    void MoveToNextWaypoint()
-    {
-        int wpNumber = Random.Range(0, waypoints.Length); 
-        zombieAgent.destination = waypoints[wpNumber].position;
-    }
-
-    void HitPlayer()  //Function called twice as attack animation action
+    public override void HitPlayer()  //Method called twice as attack animation action
     {
         attackDamage = Random.Range(1, 4);
         PlayerCharacter Player = player.GetComponent<PlayerCharacter>();
         Player.Hurt(attackDamage);
-    }
-
-    public void RecieveDamage(int damage)
-    {
-        if (state != State.InHeaven)
-            currentHealth -= damage;
-    }
-
-    public void Bleed(Vector3 pos, Quaternion rot)
-    {
-        if (state != State.InHeaven) 
-            Instantiate(bleedEffect, pos, rot);
     }
 }

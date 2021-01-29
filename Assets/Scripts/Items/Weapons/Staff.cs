@@ -22,7 +22,7 @@ public class Staff : Weapon
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && player.GetComponent<PlayerCharacter>().currentHealth > 0)
+        if (Input.GetMouseButtonDown(0) && player.GetComponent<PlayerCharacter>().currentHealth > 1)
             Shoot();
     }
 

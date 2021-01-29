@@ -13,8 +13,7 @@ public class ObjectPooler : MonoBehaviour
 {
     public static ObjectPooler SharedInstance;
     public List<ObjectPoolItem> itemsToPool;
-    public List<GameObject> pooledObjects;
-    
+    public List<GameObject> pooledObjects;   
 
     private void Awake()
     {
@@ -28,7 +27,7 @@ public class ObjectPooler : MonoBehaviour
         {
             for (int i = 0; i < item.amountToPool; i++)
             {
-                GameObject obj = (GameObject)Instantiate(item.objectToPool);
+                GameObject obj = Instantiate(item.objectToPool);
                 obj.SetActive(false);
                 pooledObjects.Add(obj);
             }
@@ -48,7 +47,7 @@ public class ObjectPooler : MonoBehaviour
         {
             if (item.objectToPool.tag == tag)
             {
-                GameObject obj = (GameObject)Instantiate(item.objectToPool);
+                GameObject obj = Instantiate(item.objectToPool);
                 obj.SetActive(false);
                 pooledObjects.Add(obj);
                 return obj;

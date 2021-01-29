@@ -39,7 +39,7 @@ public class MovementInput : MonoBehaviour
             StartCrouch();
         if (Input.GetKeyUp(KeyCode.LeftControl))
             StopCrouch();
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isSprinting)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isSprinting && isGrounded)
             StartCoroutine(Sprint());
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -59,13 +59,14 @@ public class MovementInput : MonoBehaviour
     private void StartCrouch()
     {
         movingSpeed /= 2;
-        playerController.height = playerController.height/2;
+        playerController.height /= 2;
+        headBob.isRunning = false;
     }
 
     private void StopCrouch()
     {
         movingSpeed *= 2;
-        playerController.height = playerController.height * 2;
+        playerController.height *= 2;
     }
 
     private IEnumerator Sprint()

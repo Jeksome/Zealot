@@ -9309,8 +9309,8 @@ GameObject:
   - component: {fileID: 199000013883978412}
   - component: {fileID: 114379174740949860}
   m_Layer: 0
-  m_Name: BulletImpactRottenFlesh
-  m_TagString: Untagged
+  m_Name: BleedEffect
+  m_TagString: Blood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13881,7 +13881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cedb949dfc6b44aa88e1e82ba6471d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 5
 --- !u!1 &1000013175555820
 GameObject:
   m_ObjectHideFlags: 0
