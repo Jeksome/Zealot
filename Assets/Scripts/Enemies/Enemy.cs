@@ -8,14 +8,16 @@ public abstract class Enemy : MonoBehaviour
     protected NavMeshAgent enemyAgent;
     protected GameObject player;
     protected Animator enemyAnim;
-    protected int currentHealth, minHealth;
+    protected int currentHealth, minHealth, maxHealth;
     protected int attackDamage;
-    protected float attackRate;
-    protected float nextAttackTime;
+    protected int runningSpeed;
     protected float distanceToPlayer;
     protected float sightDistance;
-    protected bool isChasing;
-    [SerializeField] private Transform[] waypoints;
+    protected float nextAttackTime;
+    protected float attackRate;
+    protected bool isChasing, isDead;
+    
+    public Transform[] waypoints;
 
     public abstract void HitPlayer();  //Method called as attack animation action   
     public void RecieveDamage(int damage)
