@@ -6,20 +6,12 @@ public class Projectile : MonoBehaviour
 {
     Rigidbody projectileRb;
     Vector3 projectileVelocity;
-    Material material;
-    Renderer rend;
-    public GameObject forMaterial;
-    public GameObject forGlow;
-    public GameObject hitEffect;
-    public GameObject smallHitEffect;
-    Color playerColor;
+    [SerializeField] private GameObject hitEffect;
+    [SerializeField] private GameObject smallHitEffect;
+
     private void OnEnable()
     {
         projectileRb = GetComponent<Rigidbody>();
-        material = GameObject.Find("Player").GetComponent<PlayerCharacter>().eye.GetComponent<Renderer>().material;
-        playerColor = GameObject.Find("Player").GetComponent<PlayerCharacter>().eyeGlow.GetComponent<Light>().color;
-        forMaterial.GetComponent<Renderer>().material = material;
-        forGlow.GetComponent<Light>().color = playerColor;
     }
 
     public void GetVelocity (Vector3 prVelocity)
@@ -27,8 +19,8 @@ public class Projectile : MonoBehaviour
         projectileVelocity = prVelocity;
     }
 
-    private void Update()
-    {  
+    private void FixedUpdate()
+    {
         projectileRb.rotation = Quaternion.LookRotation(projectileRb.velocity);
         projectileRb.velocity = projectileVelocity.normalized * 32f;
     }
@@ -36,12 +28,12 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter(Collision target)
     {
         HitDetector hitObject = target.transform.gameObject.GetComponent<HitDetector>();
-        ContactPoint[] contacts = new ContactPoint[5];
+        ContactPoint[] contacts = new ContactPoint[1];
         int numContacts = target.GetContacts(contacts);
-        forGlow.GetComponent<Light>().intensity = 1;
 
         for (int i = 0; i < numContacts; i++)
         {
+            Debug.Log(contacts[i].otherCollider.gameObject.name);
             if(contacts[i].otherCollider.gameObject.CompareTag("Enemy"))
             {
                 
@@ -53,23 +45,23 @@ public class Projectile : MonoBehaviour
                         blast.transform.position = contacts[i].point;
                         blast.transform.rotation = transform.rotation;
                         blast.SetActive(true);
-                        StartCoroutine(Fade(blast, 0.15f));
                     }
                 }
-                StartCoroutine(Fade(gameObject, 0.2f));         
+                gameObject.SetActive(false);
             }
             else 
             {
                 GameObject blast = ObjectPooler.SharedInstance.GetPooledObject("ExplosionSmall");
-                StartCoroutine(Fade(blast, 0.15f));
-                StartCoroutine(Fade(gameObject, 0.2f));
+                blast.transform.position = contacts[i].point;
+                blast.transform.rotation = transform.rotation;
+                blast.SetActive(true);
+                gameObject.SetActive(false);
             }
-        }
-
-        IEnumerator Fade(GameObject effect, float time)
-        {
-            yield return new WaitForSeconds(time);
-            effect.SetActive(false);
-        }
+        }        
+    }
+    IEnumerator Fade(GameObject effect, float time)
+    {
+        yield return new WaitForSeconds(time);
+        effect.SetActive(false);
     }
 }
