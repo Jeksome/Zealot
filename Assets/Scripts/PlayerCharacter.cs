@@ -6,18 +6,17 @@ using TMPro;
 public class PlayerCharacter : MonoBehaviour
 {
     public int currentHealth, maxHealth, minHealth;
-    public GameObject eyeGlow;
-    public GameObject eye;
 
+    [SerializeField] private GameObject eyeGlow;
     [SerializeField] private TMP_Text healthBar;
     private bool isAlive;
     private bool buttonNotPressed;
 
     void Start()
     {
-        maxHealth = 100;
+        maxHealth = 1000;
         minHealth = 1;
-        currentHealth = 15;
+        currentHealth = 1000;
         isAlive = true;
         buttonNotPressed = true;
     }
@@ -26,13 +25,12 @@ public class PlayerCharacter : MonoBehaviour
     {
         healthBar.text = currentHealth.ToString();
 
-        if (currentHealth < minHealth /*&& isAlive*/)
+        if (currentHealth < minHealth && isAlive)
         {
             Death();
             isAlive = false;
         }
 
-        Renderer rend = eye.GetComponent<Renderer>();
         Light light = eyeGlow.GetComponent<Light>();
 
         if (Input.GetKeyDown(KeyCode.F) && isAlive && buttonNotPressed)
@@ -55,14 +53,12 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Hurt(int damage)
     {
-            currentHealth -= damage;
-            Debug.Log("Health: " + currentHealth);
+        currentHealth -= damage;
     }
 
     public void Heal(int healingAmount)
     {
         currentHealth += healingAmount;
-        Debug.Log("Health: " + currentHealth);
     }
 
     public void Death()

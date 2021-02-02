@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraBob : MonoBehaviour
+/*public class CameraBob : MonoBehaviour
 {
     public Transform headTransform;
     public Transform cameraTransform;
@@ -44,4 +44,4 @@ public class CameraBob : MonoBehaviour
         }
         return offset;
     }
-}
+}*/
