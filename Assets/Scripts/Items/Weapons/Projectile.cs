@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    Rigidbody projectileRb;
-    Vector3 projectileVelocity;
+    private Rigidbody projectileRb;
+    private Vector3 projectileVelocity;
     [SerializeField] private GameObject hitEffect;
-    [SerializeField] private GameObject smallHitEffect;
+    [SerializeField] private GameObject smallHitEffect;  
 
     private void OnEnable()
     {
@@ -17,51 +17,37 @@ public class Projectile : MonoBehaviour
     public void GetVelocity (Vector3 prVelocity)
     {
         projectileVelocity = prVelocity;
+        //TODO Change to /get
     }
 
     private void FixedUpdate()
     {
-        projectileRb.rotation = Quaternion.LookRotation(projectileRb.velocity);
-        projectileRb.velocity = projectileVelocity.normalized * 32f;
+        projectileRb.velocity = projectileVelocity;
     }
 
     private void OnCollisionEnter(Collision target)
     {
         HitDetector hitObject = target.transform.gameObject.GetComponent<HitDetector>();
-        ContactPoint[] contacts = new ContactPoint[1];
-        int numContacts = target.GetContacts(contacts);
+        GameObject hitblast = ObjectPooler.SharedInstance.GetPooledObject("ExplosionBig");
+        GameObject missblast = ObjectPooler.SharedInstance.GetPooledObject("ExplosionSmall");
 
-        for (int i = 0; i < numContacts; i++)
+        if (target.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log(contacts[i].otherCollider.gameObject.name);
-            if(contacts[i].otherCollider.gameObject.CompareTag("Enemy"))
-            {
-                
-                hitObject.HitReaction(contacts[i].point, transform.rotation, target.gameObject);
-                GameObject blast = ObjectPooler.SharedInstance.GetPooledObject("ExplosionBig");
-                {
-                    if (blast != null)
-                    {
-                        blast.transform.position = contacts[i].point;
-                        blast.transform.rotation = transform.rotation;
-                        blast.SetActive(true);
-                    }
-                }
-                gameObject.SetActive(false);
-            }
-            else 
-            {
-                GameObject blast = ObjectPooler.SharedInstance.GetPooledObject("ExplosionSmall");
-                blast.transform.position = contacts[i].point;
-                blast.transform.rotation = transform.rotation;
-                blast.SetActive(true);
-                gameObject.SetActive(false);
-            }
-        }        
+            Blast(hitblast);
+            hitObject.HitReaction(transform.position, transform.rotation, target.gameObject);            
+        }
+        else    
+            Blast(missblast);
+
+        gameObject.SetActive(false);
     }
-    IEnumerator Fade(GameObject effect, float time)
+
+    private void Blast (GameObject blastEffect)
     {
-        yield return new WaitForSeconds(time);
-        effect.SetActive(false);
+        if (blastEffect != null)
+        {
+            blastEffect.transform.position = transform.position;
+            blastEffect.SetActive(true);            
+        }
     }
 }

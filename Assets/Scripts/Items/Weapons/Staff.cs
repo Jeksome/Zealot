@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Staff : Weapon
 {
     [SerializeField] private GameObject projectilePrefab;
     private Transform weaponTip;
     private Camera playerCamera;
-    private GameObject player;
+    private PlayerCharacter player;
     private Animator staffAnimator;
     private float nextFire;
 
@@ -16,13 +14,13 @@ public class Staff : Weapon
         staffAnimator = GetComponent<Animator>();
         weaponTip = GameObject.Find("StaffTip").GetComponent<Transform>();
         playerCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-        player = GameObject.Find("Player");
+        player = GameObject.Find("Player").GetComponent<PlayerCharacter>();
         fireRate = 1.2f;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && player.GetComponent<PlayerCharacter>().currentHealth > 1)
+        if (Input.GetMouseButtonDown(0) && player.currentHealth > 1)
             Shoot();
     }
 
@@ -48,14 +46,14 @@ public class Staff : Weapon
 
     private void ProjectileLaunch(Vector3 target)
     {
-        GameObject project = ObjectPooler.SharedInstance.GetPooledObject("Missile");
-        if (project != null)
+        GameObject projectile = ObjectPooler.SharedInstance.GetPooledObject("Missile");
+        float velocityMultiplier = 20f;
+        if (projectile != null)
         {
-            project.transform.position = weaponTip.transform.position;
-            project.transform.rotation = Quaternion.identity;
-            project.SetActive(true);
+            projectile.transform.position = weaponTip.transform.position;
+            projectile.SetActive(true);
         }
-        Vector3 projectileVelocity = (target - playerCamera.transform.position).normalized * 20f;
-        project.GetComponent<Projectile>().GetVelocity(projectileVelocity);
+        Vector3 projectileVelocity = (target - playerCamera.transform.position).normalized * velocityMultiplier;
+        projectile.GetComponent<Projectile>().GetVelocity(projectileVelocity);
     }
 }
