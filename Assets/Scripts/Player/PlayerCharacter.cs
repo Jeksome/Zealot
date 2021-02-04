@@ -5,16 +5,17 @@ using TMPro;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    public int currentHealth, maxHealth, minHealth;
-   
-    [SerializeField] private TMP_Text healthBar;
-    private bool isAlive;    
+    public bool IsAlive { get { return isAlive; } }
 
+    private bool isAlive = true;
+    private int currentHealth, maxHealth, minHealth;
+    [SerializeField] private TMP_Text healthBar;   
+    
     void Start()
     {
         maxHealth = 100;
         minHealth = 1;
-        currentHealth = 100;
+        currentHealth = maxHealth;
         isAlive = true;        
     }
 
@@ -34,7 +35,7 @@ public class PlayerCharacter : MonoBehaviour
         currentHealth -= damage;
     }
 
-    public void Heal(int healingAmount)
+    public void Heal(int healingAmount = 10)
     {
         currentHealth += healingAmount;
     }

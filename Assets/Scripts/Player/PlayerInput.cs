@@ -10,11 +10,12 @@ public class PlayerInput : MonoBehaviour
     private Vector3 velocity;
     private CharacterController playerController;
     private PlayerCharacter player;
+    private MouseLook mouseLook;
     
     private const float jumpHeight = 1f;
     private const float groundDistance = 0.2f;
     private const float gravity = -9.8f;
-    private const float movementSpeedModifier = 3.0f;
+    private float movementSpeedModifier = 3.0f;
     private const float crouchCameraHightModifier = 2.0f;
     private float movingSpeed = 5.0f;
     private float horizontalInput, verticalInput;
@@ -23,7 +24,7 @@ public class PlayerInput : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<CharacterController>();
-        player = GetComponent<PlayerCharacter>();    
+        player = GetComponent<PlayerCharacter>();
     }
 
     void Update()
@@ -49,7 +50,7 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftControl))
             StopCrouch();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded && !isCrouching && !isSprinting)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded && Input.GetKey(KeyCode.W) && !isCrouching && !isSprinting)
             StartCoroutine(Sprint());
        
         if (isGrounded && velocity.y < 0)

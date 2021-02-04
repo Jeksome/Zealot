@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProjectileEffectDisappear : MonoBehaviour {
 
-	private float lifeTime = 1f;
+	private float lifeTime = 1.2f;
 
     private void OnEnable()
     {

@@ -14,7 +14,7 @@ public class Zombie : Enemy
         maxHealth = 5;
         currentHealth = maxHealth;
         minHealth = 1;
-        attackRate = 0.75f;
+        attackRate = 0.5f;
         sightDistance = 7f;
         runningSpeed = 3;
         waypointChangeDistance = 0.5f;

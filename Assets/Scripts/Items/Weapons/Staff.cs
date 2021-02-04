@@ -2,7 +2,6 @@
 
 public class Staff : Weapon
 {
-    [SerializeField] private GameObject projectilePrefab;
     private Transform weaponTip;
     private Camera playerCamera;
     private PlayerCharacter player;
@@ -20,7 +19,7 @@ public class Staff : Weapon
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && player.currentHealth > 1)
+        if (Input.GetMouseButtonDown(0) && player.IsAlive)
             Shoot();
     }
 
@@ -30,7 +29,7 @@ public class Staff : Weapon
         RaycastHit hit;
         Ray ray = playerCamera.ScreenPointToRay(rayOrigin);
 
-        if (Time.time > nextFire)
+        if (Time.time > nextFire && Time.timeScale != 0)
         {
             int weaponDamage = Random.Range(1, 3);
             player.GetComponent<PlayerCharacter>().Hurt(weaponDamage);           
@@ -54,6 +53,6 @@ public class Staff : Weapon
             projectile.SetActive(true);
         }
         Vector3 projectileVelocity = (target - playerCamera.transform.position).normalized * velocityMultiplier;
-        projectile.GetComponent<Projectile>().GetVelocity(projectileVelocity);
+        projectile.GetComponent<Projectile>().ProjectileVelocity = projectileVelocity;
     }
 }

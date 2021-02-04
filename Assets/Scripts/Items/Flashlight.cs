@@ -18,7 +18,7 @@ public class Flashlight : MonoBehaviour
 
     public void TryToTurnOn()
     {
-        if (isOff && player.currentHealth > 1)
+        if (isOff && player.IsAlive)
         {
             StartCoroutine(FlashLight());
             player.Hurt();

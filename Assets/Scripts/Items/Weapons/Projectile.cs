@@ -4,20 +4,15 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private Rigidbody projectileRb;
+    public Vector3 ProjectileVelocity { set { projectileVelocity = value; } }
     private Vector3 projectileVelocity;
+    private Rigidbody projectileRb;    
     [SerializeField] private GameObject hitEffect;
-    [SerializeField] private GameObject smallHitEffect;  
+    [SerializeField] private GameObject smallHitEffect;   
 
     private void OnEnable()
     {
         projectileRb = GetComponent<Rigidbody>();
-    }
-
-    public void GetVelocity (Vector3 prVelocity)
-    {
-        projectileVelocity = prVelocity;
-        //TODO Change to /get
     }
 
     private void FixedUpdate()
@@ -34,11 +29,12 @@ public class Projectile : MonoBehaviour
         if (target.gameObject.CompareTag("Enemy"))
         {
             Blast(hitblast);
-            hitObject.HitReaction(transform.position, transform.rotation, target.gameObject);            
+            hitObject.HitReaction(transform.position, transform.rotation, target.gameObject);
         }
-        else    
+        else
+        {
             Blast(missblast);
-
+        }
         gameObject.SetActive(false);
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
@@ -53,11 +54,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void OnTriggerExit(Collider other)
     {
         if (other.gameObject == player)
-        {
-            enemyAnimator.SetBool("isAttacking", false);
-            enemyAgent.isStopped = false;
-            state = State.Chasing;
-        }
+            Invoke("ContinueChasing", attackRate);
     }
     public void Patrol()
     {
@@ -77,8 +74,16 @@ public abstract class Enemy : MonoBehaviour
     {
         isChasing = true;
         enemyAgent.speed = runningSpeed;
+        enemyAgent.acceleration += 2;
         enemyAgent.destination = player.transform.position;
         enemyAnimator.SetBool("isRunning", true);
+    }
+
+    private void ContinueChasing()
+    {
+        enemyAnimator.SetBool("isAttacking", false);
+        enemyAgent.isStopped = false;
+        state = State.Chasing;
     }
 
     public void Attack()
@@ -93,6 +98,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public abstract void HitPlayer();  //Method called as attack animation action   
+
     public void RecieveDamage(int damage)
     {
         if (state != State.Dead)
