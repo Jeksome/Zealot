@@ -12,5 +12,5 @@ public abstract class Weapon : MonoBehaviour
     public float hitForce;
     
     public abstract void Shoot();
-
+    public abstract void ProjectileLaunch(Vector3 target);
 }

@@ -3,13 +3,12 @@
 public class MouseInteraction : MonoBehaviour
 {
     [SerializeField] private GameObject staff;
+    [SerializeField] private PlayerCharacter player;
     private Camera playerCamera;
-    private PlayerCharacter player;
-    private float rayLenght = 3.5f;
+    private const float rayLenght = 3.5f;
 
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<PlayerCharacter>();
         playerCamera = GetComponent<Camera>();
     }
     void Update()
@@ -29,9 +28,9 @@ public class MouseInteraction : MonoBehaviour
         }
     }
 
-    private void TryPickUp(GameObject item, string itemName)
+    private void TryPickUp(GameObject item, string itemTag)
     {
-        switch (itemName)
+        switch (itemTag)
         {
             case "Health":
                 item.SetActive(false);

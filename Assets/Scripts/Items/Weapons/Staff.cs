@@ -2,19 +2,17 @@
 
 public class Staff : Weapon
 {
-    private Transform weaponTip;
-    private Camera playerCamera;
-    private PlayerCharacter player;
+    [SerializeField] private Transform weaponTip;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private PlayerCharacter player;
     private Animator staffAnimator;
     private float nextFire;
 
     private void Start()
     {
         staffAnimator = GetComponent<Animator>();
-        weaponTip = GameObject.Find("StaffTip").GetComponent<Transform>();
-        playerCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-        player = GameObject.Find("Player").GetComponent<PlayerCharacter>();
         fireRate = 1.2f;
+        weaponDamage = 2;
     }
 
     private void Update()
@@ -31,8 +29,7 @@ public class Staff : Weapon
 
         if (Time.time > nextFire && Time.timeScale != 0)
         {
-            int weaponDamage = Random.Range(1, 3);
-            player.GetComponent<PlayerCharacter>().Hurt(weaponDamage);           
+            player.Hurt(weaponDamage);         
             
             if (Physics.Raycast(ray, out hit))
             {
@@ -43,16 +40,17 @@ public class Staff : Weapon
         }
     }
 
-    private void ProjectileLaunch(Vector3 target)
+    public override void ProjectileLaunch(Vector3 target)    
     {
         GameObject projectile = ObjectPooler.SharedInstance.GetPooledObject("Missile");
-        float velocityMultiplier = 20f;
         if (projectile != null)
         {
+            float velocityMultiplier = 20f;
+            Vector3 projectileVelocity = (target - playerCamera.transform.position).normalized * velocityMultiplier;
             projectile.transform.position = weaponTip.transform.position;
             projectile.SetActive(true);
-        }
-        Vector3 projectileVelocity = (target - playerCamera.transform.position).normalized * velocityMultiplier;
-        projectile.GetComponent<Projectile>().ProjectileVelocity = projectileVelocity;
+            projectile.GetComponent<Projectile>().ProjectileVelocity = projectileVelocity;
+            projectile.GetComponent<Projectile>().ProjectileDamage = weaponDamage;        
+        }        
     }
 }

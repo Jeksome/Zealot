@@ -3,36 +3,51 @@ using UnityEngine;
 
 public class Flashlight : MonoBehaviour
 {
-    private bool isOff;
+    [SerializeField] private PlayerCharacter player;   
     private Light glowingLight;
+    private bool isOn;
     private readonly float intensityMultiplier = 0.4f; 
-    private readonly float rangeMultiplier = 12f;
-    private PlayerCharacter player;
+    private readonly float rangeMultiplier = 12f; 
+    public bool IsFound { get { return isFound; } }
+    private bool isFound;
 
     void Start()
     {
-        isOff = true;
+        isOn = false;
         glowingLight = GetComponent<Light>();
-        player = GameObject.Find("Player").GetComponent<PlayerCharacter>();
+    }
+
+    private void OnEnable()
+    {
+        isFound = true;
     }
 
     public void TryToTurnOn()
     {
-        if (isOff && player.IsAlive)
+        if (!isOn && player.IsAlive)
+            StartCoroutine(TurnedOn());
+    }
+
+    public void TryToTurnOff()
+    {
+        if (isOn && player.IsAlive)
         {
-            StartCoroutine(FlashLight());
-            player.Hurt();
+            isOn = false;
+            glowingLight.range /= rangeMultiplier;
+            glowingLight.intensity -= intensityMultiplier;
         }
     }
 
-    private IEnumerator FlashLight()
+    private IEnumerator TurnedOn()
     {
-        isOff = false;
         glowingLight.range *= rangeMultiplier;
         glowingLight.intensity += intensityMultiplier;
-        yield return new WaitForSeconds(2f);
-        glowingLight.range /= rangeMultiplier;
-        glowingLight.intensity -= intensityMultiplier;
-        isOff = true;
+        isOn = true;
+
+        while (isOn)
+        {
+            player.Hurt();
+            yield return new WaitForSeconds(2f);           
+        }     
     }
 }

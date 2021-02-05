@@ -1,21 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class PlayerCharacter : MonoBehaviour
 {
     public bool IsAlive { get { return isAlive; } }
-
     private bool isAlive = true;
-    private int currentHealth, maxHealth, minHealth;
+    private int minHealth;
+    [SerializeField] [Range(0, 100)] private int currentHealth;
     [SerializeField] private TMP_Text healthBar;   
     
     void Start()
     {
-        maxHealth = 100;
         minHealth = 1;
-        currentHealth = maxHealth;
         isAlive = true;        
     }
 

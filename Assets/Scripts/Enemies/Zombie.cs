@@ -2,15 +2,17 @@
 using UnityEngine.AI;
 
 public class Zombie : Enemy
-{  
-    void Start()
+{
+    [SerializeField] private PlayerCharacter player;
+
+    private void Start()
     {
-        player = GameObject.Find("Player");
         enemyAgent = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponent<Animator>();
         enemyAnimator.SetBool("isWalking", true);
         state = State.Patroling;
 
+        Player = player;
         maxHealth = 5;
         currentHealth = maxHealth;
         minHealth = 1;
@@ -20,10 +22,9 @@ public class Zombie : Enemy
         waypointChangeDistance = 0.5f;
     }   
 
-    public override void HitPlayer()  //Method called twice as attack animation action
+    public override void HitPlayer()  
     {
         attackDamage = Random.Range(1, 4);
-        PlayerCharacter Player = player.GetComponent<PlayerCharacter>();
-        Player.Hurt(attackDamage);
+        player.Hurt(attackDamage);
     }
 }

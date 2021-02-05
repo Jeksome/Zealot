@@ -4,11 +4,11 @@ using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    protected enum State { Patroling, Chasing, Attacking, Hitting, Dead }
+    protected enum State { Patroling, Chasing, Attacking, Hitting, Dying, Dead }
     protected State state;
     protected NavMeshAgent enemyAgent;
-    protected GameObject player;
     protected Animator enemyAnimator;
+    protected PlayerCharacter Player;
     protected int currentHealth, minHealth, maxHealth;
     protected int attackDamage;
     protected int runningSpeed;
@@ -16,21 +16,23 @@ public abstract class Enemy : MonoBehaviour
     protected float nextAttackTime;
     protected float attackRate;
     protected bool isChasing, isDead;
-    
+
+    public delegate void EnemyKilled();
+    public static event EnemyKilled enemyKilled;
+
     public Transform[] waypoints;
 
     public virtual void FixedUpdate()
     {
-        if (currentHealth < minHealth)
-            state = State.Dead;
+        if (currentHealth < minHealth && !isDead)
+            state = State.Dying;
         if (currentHealth < maxHealth && !isDead && !isChasing)
             state = State.Chasing;
 
-        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
 
         switch (state)
         {
-            default:
             case State.Patroling:
                 Patrol();
                 break;
@@ -40,21 +42,23 @@ public abstract class Enemy : MonoBehaviour
             case State.Attacking:
                 Attack();
                 break;
-            case State.Dead:
+            case State.Dying:
                 Die();
+                break;
+            case State.Dead:
                 break;
         }
     }
     public virtual void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == player)
+        if (other.gameObject == Player.gameObject)
             state = State.Attacking;
     }
 
     public virtual void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == player)
-            Invoke("ContinueChasing", attackRate);
+        if (other.gameObject == Player.gameObject)
+            StartCoroutine(ContinueChasing(attackRate));
     }
     public void Patrol()
     {
@@ -75,12 +79,13 @@ public abstract class Enemy : MonoBehaviour
         isChasing = true;
         enemyAgent.speed = runningSpeed;
         enemyAgent.acceleration += 2;
-        enemyAgent.destination = player.transform.position;
+        enemyAgent.destination = Player.gameObject.transform.position;
         enemyAnimator.SetBool("isRunning", true);
     }
 
-    private void ContinueChasing()
+    private IEnumerator ContinueChasing(float attackDelay)
     {
+        yield return new WaitForSeconds(attackDelay);
         enemyAnimator.SetBool("isAttacking", false);
         enemyAgent.isStopped = false;
         state = State.Chasing;
@@ -101,13 +106,13 @@ public abstract class Enemy : MonoBehaviour
 
     public void RecieveDamage(int damage)
     {
-        if (state != State.Dead)
+        if (state != State.Dying)
             currentHealth -= damage;
     }
 
     public void Bleed(Vector3 pos, Quaternion rot)
     {
-        if (state != State.Dead)
+        if (state != State.Dying)
         {
             GameObject bleedEffect = ObjectPooler.SharedInstance.GetPooledObject("Blood");
             if (bleedEffect != null)
@@ -126,5 +131,10 @@ public abstract class Enemy : MonoBehaviour
         enemyAgent.isStopped = true;
         isDead = true;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
+
+        if (enemyKilled != null)
+            enemyKilled();
+
+        state = State.Dead;
     }
 }

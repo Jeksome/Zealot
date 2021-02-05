@@ -4,18 +4,17 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private LayerMask groundMask;
-    [SerializeField] private GameObject glowingEye;
+    [SerializeField] private Flashlight flashlight;
     [SerializeField] private Transform groundCheck;
    
     private Vector3 velocity;
     private CharacterController playerController;
     private PlayerCharacter player;
-    private MouseLook mouseLook;
     
     private const float jumpHeight = 1f;
     private const float groundDistance = 0.2f;
     private const float gravity = -9.8f;
-    private float movementSpeedModifier = 3.0f;
+    private const float movementSpeedModifier = 3.0f;
     private const float crouchCameraHightModifier = 2.0f;
     private float movingSpeed = 5.0f;
     private float horizontalInput, verticalInput;
@@ -38,11 +37,13 @@ public class PlayerInput : MonoBehaviour
         movement = transform.TransformDirection(movement);
         playerController.Move(movement);
 
-        if (Input.GetKeyDown(KeyCode.F) && glowingEye.activeInHierarchy)
+        if (flashlight.IsFound)
         {
-            Flashlight flashlight  = glowingEye.GetComponent<Flashlight>();
-            flashlight.TryToTurnOn();
-        }
+            if (Input.GetKeyDown(KeyCode.F))
+                flashlight.TryToTurnOn();
+            else if (Input.GetKeyUp(KeyCode.F))
+                flashlight.TryToTurnOff();
+        }                               
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
             StartCrouch();
@@ -51,17 +52,17 @@ public class PlayerInput : MonoBehaviour
             StopCrouch();
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded && Input.GetKey(KeyCode.W) && !isCrouching && !isSprinting)
-            StartCoroutine(Sprint());
+            StartSprint();
+        
+        if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.W)) && isSprinting)
+            StopSprint();
        
         if (isGrounded && velocity.y < 0)
-        {
             velocity.y = -2f;
-        }
 
         if (Input.GetButtonDown("Jump") && isGrounded)
-        {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
+        
         velocity.y += gravity * Time.deltaTime;
         playerController.Move(velocity * Time.deltaTime);
     }
@@ -85,13 +86,25 @@ public class PlayerInput : MonoBehaviour
         playerController.height *= crouchCameraHightModifier;
     }
 
-    private IEnumerator Sprint()
+    private void StartSprint()
     {
         isSprinting = true;
-        player.Hurt();
         ChangeMovementSpeed(movementSpeedModifier);
-        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(DamageHealthWhileSprinting());
+    }
+
+    private void StopSprint()
+    {
         isSprinting = false;
         ChangeMovementSpeed(-movementSpeedModifier);
+    }
+
+    private IEnumerator DamageHealthWhileSprinting()
+    {                
+        while (isSprinting)
+        {
+            player.Hurt();
+            yield return new WaitForSeconds(2f);            
+        }
     }
 }
