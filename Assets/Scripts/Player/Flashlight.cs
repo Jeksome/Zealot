@@ -6,8 +6,8 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private PlayerCharacter player;   
     private Light glowingLight;
     private bool isOn;
-    private readonly float intensityMultiplier = 0.4f; 
-    private readonly float rangeMultiplier = 12f; 
+    private readonly float intensityMultiplier = 0.8f; 
+    private readonly float rangeMultiplier = 4f; 
     public bool IsFound { get { return isFound; } }
     private bool isFound;
 

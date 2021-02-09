@@ -43,7 +43,7 @@ public class PlayerInput : MonoBehaviour
                 flashlight.TryToTurnOn();
             else if (Input.GetKeyUp(KeyCode.F))
                 flashlight.TryToTurnOff();
-        }                               
+        }
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
             StartCrouch();

@@ -1,12 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
-public class Book : MonoBehaviour, IRead
+public class Book : MonoBehaviour, IReadable
 {
     public TMP_Text text;
     public TMP_Text textRus;
+
+    public void Interact()
+    {
+        ReadBook();
+    }
 
     public void ReadBook()
     {

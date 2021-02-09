@@ -51,13 +51,13 @@ public abstract class Enemy : MonoBehaviour
     }
     public virtual void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == Player.gameObject)
+        if (other.gameObject == Player.gameObject && !isDead)
             state = State.Attacking;
     }
 
     public virtual void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == Player.gameObject)
+        if (other.gameObject == Player.gameObject && !isDead)
             StartCoroutine(ContinueChasing(attackRate));
     }
     public void Patrol()
