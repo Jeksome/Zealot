@@ -12,21 +12,18 @@ public abstract class Enemy : MonoBehaviour
     protected int currentHealth, minHealth, maxHealth;
     protected int attackDamage;
     protected int runningSpeed;
-    protected float distanceToPlayer, sightDistance, waypointChangeDistance;
+    protected float distanceToPlayer, sightDistance, detectDistance, waypointChangeDistance;
     protected float nextAttackTime;
     protected float attackRate;
-    protected bool isChasing, isDead;
+    protected bool isChasing;
 
-    public delegate void EnemyKilled();
-    public static event EnemyKilled enemyKilled;
-
-    public Transform[] waypoints;
+    [SerializeField] private Transform[] waypoints;
 
     public virtual void FixedUpdate()
     {
-        if (currentHealth < minHealth && !isDead)
+        if (currentHealth < minHealth && state != State.Dead)
             state = State.Dying;
-        if (currentHealth < maxHealth && !isDead && !isChasing)
+        if (currentHealth < maxHealth && !isChasing)
             state = State.Chasing;
 
         distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
@@ -51,21 +48,22 @@ public abstract class Enemy : MonoBehaviour
     }
     public virtual void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == Player.gameObject && !isDead)
+        if (other.gameObject == Player.gameObject && state != State.Dead)
             state = State.Attacking;
     }
 
     public virtual void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == Player.gameObject && !isDead)
+        if (other.gameObject == Player.gameObject && state != State.Dead)
             StartCoroutine(ContinueChasing(attackRate));
     }
     public void Patrol()
     {
         if (!enemyAgent.pathPending && enemyAgent.remainingDistance < waypointChangeDistance)
             MoveToNextWaypoint();
-        if (distanceToPlayer < sightDistance)
+        else if (distanceToPlayer < sightDistance)
             state = State.Chasing;
+
     }
 
     public void MoveToNextWaypoint()
@@ -106,14 +104,12 @@ public abstract class Enemy : MonoBehaviour
 
     public void RecieveDamage(int damage)
     {
-        if (state != State.Dying)
+        if (state != State.Dead)
             currentHealth -= damage;
     }
 
     public void Bleed(Vector3 pos, Quaternion rot)
     {
-        if (state != State.Dying)
-        {
             GameObject bleedEffect = ObjectPooler.SharedInstance.GetPooledObject("Blood");
             if (bleedEffect != null)
             {
@@ -121,7 +117,6 @@ public abstract class Enemy : MonoBehaviour
                 bleedEffect.transform.rotation = rot;
                 bleedEffect.SetActive(true);
             }
-        }
     }
 
     public void Die()
@@ -129,12 +124,7 @@ public abstract class Enemy : MonoBehaviour
         currentHealth = 0;
         enemyAnimator.SetBool("isDying", true);
         enemyAgent.isStopped = true;
-        isDead = true;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
-
-        if (enemyKilled != null)
-            enemyKilled();
-
         state = State.Dead;
     }
 }

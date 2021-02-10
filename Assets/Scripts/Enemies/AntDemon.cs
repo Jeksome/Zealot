@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class AntDemon : Enemy
 {
     [SerializeField] private PlayerCharacter player;
+
     private void Start()
     {
         enemyAgent = GetComponent<NavMeshAgent>();
@@ -12,11 +13,12 @@ public class AntDemon : Enemy
         state = State.Patroling;
 
         Player = player;
-        maxHealth = 10; 
+        maxHealth = 9; 
         currentHealth = maxHealth;
         minHealth = 1;
         attackRate = 1.3f;
-        sightDistance = 10f;
+        sightDistance = 4f;
+        detectDistance = 10f;
         runningSpeed = 7;
         waypointChangeDistance = 0.5f;
     }

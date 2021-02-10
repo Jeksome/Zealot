@@ -4,17 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ammo
-  - Door
-  - Key
-  - Staff
-  - LockedDoor
-  - Book
   - Enemy
   - Missile
   - ExplosionSmall
   - ExplosionBig
   - Blood
+  - Health
   layers:
   - Default
   - TransparentFX
@@ -29,7 +24,7 @@ TagManager:
   - Weapon
   - Player
   - Enemy
-  - 
+  - Lustre
   - 
   - 
   - 
