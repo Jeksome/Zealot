@@ -13,14 +13,11 @@ public class Flashlight : MonoBehaviour
 
     void Start()
     {
-        isOn = false;
         glowingLight = GetComponent<Light>();
+        isOn = false;       
     }
 
-    private void OnEnable()
-    {
-        isFound = true;
-    }
+    private void OnEnable() => isFound = true;
 
     public void TryToTurnOn()
     {
