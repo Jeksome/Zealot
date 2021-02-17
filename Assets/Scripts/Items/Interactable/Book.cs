@@ -2,7 +2,7 @@
 using TMPro;
 
 public class Book : MonoBehaviour, IReadable
-{
+{   
     public TMP_Text text;
     public TMP_Text textRus;
 
