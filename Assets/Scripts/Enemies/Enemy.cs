@@ -12,20 +12,18 @@ public abstract class Enemy : MonoBehaviour
     protected int currentHealth, minHealth, maxHealth;
     protected int attackDamage;
     protected int runningSpeed;
-    protected float distanceToPlayer, sightDistance, detectDistance, waypointChangeDistance;
+    protected float distanceToPlayer, sightDistance, waypointChangeDistance;
     protected float nextAttackTime;
     protected float attackRate;
     protected bool isChasing;
 
     [SerializeField] private Transform[] waypoints;
 
-    public virtual void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (currentHealth < minHealth && state != State.Dead)
             state = State.Dying;
-        if (currentHealth < maxHealth && !isChasing)
-            state = State.Chasing;
-
+        
         distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
 
         switch (state)
@@ -46,33 +44,33 @@ public abstract class Enemy : MonoBehaviour
                 break;
         }
     }
-    public virtual void OnTriggerStay(Collider other)
+
+    protected virtual void OnTriggerStay(Collider other)
     {
         if (other.gameObject == Player.gameObject && state != State.Dead)
             state = State.Attacking;
     }
 
-    public virtual void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         if (other.gameObject == Player.gameObject && state != State.Dead)
             StartCoroutine(ContinueChasing(attackRate));
     }
-    public void Patrol()
+    protected void Patrol()
     {
         if (!enemyAgent.pathPending && enemyAgent.remainingDistance < waypointChangeDistance)
             MoveToNextWaypoint();
         else if (distanceToPlayer < sightDistance)
             state = State.Chasing;
-
     }
 
-    public void MoveToNextWaypoint()
+    protected void MoveToNextWaypoint()
     {
         int wpNumber = Random.Range(0, waypoints.Length);
         enemyAgent.destination = waypoints[wpNumber].position;
     }
 
-    public void Chase()
+    protected void Chase()
     {
         isChasing = true;
         enemyAgent.speed = runningSpeed;
@@ -89,7 +87,7 @@ public abstract class Enemy : MonoBehaviour
         state = State.Chasing;
     }
 
-    public void Attack()
+    protected void Attack()
     {
         if (nextAttackTime < Time.time)
         {
@@ -105,7 +103,11 @@ public abstract class Enemy : MonoBehaviour
     public void RecieveDamage(int damage)
     {
         if (state != State.Dead)
+        {
             currentHealth -= damage;
+            if (state != State.Chasing)
+                state = State.Chasing;            
+        }
     }
 
     public void Bleed(Vector3 pos, Quaternion rot)
@@ -119,7 +121,7 @@ public abstract class Enemy : MonoBehaviour
             }
     }
 
-    public void Die()
+    protected void Die()
     {
         currentHealth = 0;
         enemyAnimator.SetBool("isDying", true);
