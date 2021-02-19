@@ -19,13 +19,10 @@ public abstract class Enemy : MonoBehaviour
 
     [SerializeField] private Transform[] waypoints;
 
-    protected virtual void FixedUpdate()
-    {
-        if (currentHealth < minHealth && state != State.Dead)
-            state = State.Dying;
-        
-        distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
+    protected void Update() => distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
 
+    protected void FixedUpdate()
+    {                     
         switch (state)
         {
             case State.Patroling:
@@ -45,13 +42,13 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual void OnTriggerStay(Collider other)
+    protected void OnTriggerStay(Collider other)
     {
         if (other.gameObject == Player.gameObject && state != State.Dead)
             state = State.Attacking;
     }
 
-    protected virtual void OnTriggerExit(Collider other)
+    protected void OnTriggerExit(Collider other)
     {
         if (other.gameObject == Player.gameObject && state != State.Dead)
             StartCoroutine(ContinueChasing(attackRate));
@@ -106,7 +103,9 @@ public abstract class Enemy : MonoBehaviour
         {
             currentHealth -= damage;
             if (state != State.Chasing)
-                state = State.Chasing;            
+                state = State.Chasing;
+            else if (currentHealth < minHealth)
+                state = State.Dying;
         }
     }
 

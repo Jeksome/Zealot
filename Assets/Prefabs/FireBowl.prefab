@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6041776778233500741}
   - component: {fileID: 6041776778233500740}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6041776778233500741
 Transform:
@@ -43,8 +43,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.9485294, g: 0.6719551, b: 0.07671931, a: 1}
-  m_Intensity: 1.42
-  m_Range: 6.21
+  m_Intensity: 1.28
+  m_Range: 3.17
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -103,12 +103,12 @@ GameObject:
   - component: {fileID: 6041776779260332442}
   - component: {fileID: 6041776779260332444}
   - component: {fileID: 6041776779260332445}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Fire_1A(Light)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6041776779260332442
 Transform:
@@ -4859,12 +4859,12 @@ GameObject:
   - component: {fileID: 6041776779628357965}
   - component: {fileID: 6041776779628357962}
   - component: {fileID: 6041776779628357963}
-  m_Layer: 0
-  m_Name: Bowl_1B(Lit) (4)
+  m_Layer: 9
+  m_Name: FireBowl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6041776779628357960
 Transform:
@@ -4873,7 +4873,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6041776779628357961}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.412, y: 1.173912, z: 3.059}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
