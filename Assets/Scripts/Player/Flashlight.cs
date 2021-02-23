@@ -21,13 +21,13 @@ public class Flashlight : MonoBehaviour
 
     public void TryToTurnOn()
     {
-        if (!isOn && player.IsAlive)
+        if (!isOn && player.CanCast)
             StartCoroutine(TurnedOn());
     }
 
     public void TryToTurnOff()
     {
-        if (isOn && player.IsAlive)
+        if (isOn)
         {
             isOn = false;
             glowingLight.range /= rangeMultiplier;
@@ -43,7 +43,7 @@ public class Flashlight : MonoBehaviour
 
         while (isOn)
         {
-            player.Hurt();
+            player.GetHurt();
             yield return new WaitForSeconds(2f);           
         }     
     }

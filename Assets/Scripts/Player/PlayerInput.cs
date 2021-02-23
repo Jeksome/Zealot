@@ -23,7 +23,7 @@ public class PlayerInput : MonoBehaviour
     private const float crouchCameraHightModifier = 2.0f;
     private float playerHight;
     private float movingSpeed;
-    private float defaultSpeed = 5.0f;
+    private float defaultSpeed;
     private float horizontalInput, verticalInput;
     private bool isGrounded, isSprinting, isCrouching, isTouchingCeiling, hasStoppedCrouching;
     
@@ -32,6 +32,7 @@ public class PlayerInput : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         player = GetComponent<PlayerCharacter>();
         playerHight = playerController.height;
+        defaultSpeed = 5.0f;
         movingSpeed = defaultSpeed;
     }
 
@@ -80,7 +81,7 @@ public class PlayerInput : MonoBehaviour
         if (!isTouchingCeiling && Input.GetKey(KeyCode.LeftControl) == false && !hasStoppedCrouching)
             NormalizePlayer();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded && Input.GetKey(KeyCode.W) && !isCrouching && !isSprinting)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded && Input.GetKey(KeyCode.W) && !isCrouching && !isSprinting && player.CanCast && player.IsBurdened == false)
             StartSprint();
         
         if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.W)) && isSprinting)
@@ -140,7 +141,7 @@ public class PlayerInput : MonoBehaviour
     {                
         while (isSprinting)
         {
-            player.Hurt();
+            player.GetHurt();
             yield return new WaitForSeconds(2f);            
         }
     }

@@ -17,7 +17,7 @@ public class Staff : Weapon
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && player.IsAlive)
+        if (Input.GetMouseButtonDown(0) && player.CanCast)
             Shoot();
     }
 
@@ -29,7 +29,7 @@ public class Staff : Weapon
 
         if (Time.time > nextFire && Time.timeScale != 0)
         {
-            player.Hurt(weaponDamage);         
+            player.GetHurt();         
             
             if (Physics.Raycast(ray, out hit))
             {

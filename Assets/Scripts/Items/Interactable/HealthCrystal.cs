@@ -14,5 +14,4 @@ public class HealthCrystal : MonoBehaviour, IInteractable
         if (IsPickedUp != null)
             IsPickedUp(healAmount);
     }
-
 }

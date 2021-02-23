@@ -3,51 +3,94 @@ using TMPro;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    public bool IsAlive { get { return isAlive; } }
-    private bool isAlive = true;
-    private const int minHealth = 1;
-    [SerializeField] [Range(0, 100)] private int currentHealth;
-    [SerializeField] private TMP_Text healthBar;
+    public bool CanCast { get { return canCast; } }
+    private bool canCast = true;
+    public bool IsBurdened { get { return isBurdened; } }
+    private bool isBurdened;
 
-    void Start()
+    private bool isAlive = true;   
+
+    private const int minHealth = 1;
+    private const int maxStat = 100;
+    private int currentHealth;
+    private int currentArmor;
+
+    #pragma warning disable 0649
+    [SerializeField] HealthBar healthBar;
+    [SerializeField] ArmorBar armorBar;
+    #pragma warning restore 0649
+
+    private void Start()
     {
-        DisplayHealth(currentHealth);
+        currentHealth = maxStat;
         HealthCrystal.IsPickedUp += Heal;
+        Armor.isPickedUp += AddArmor;
     }
 
-    public void Hurt(int damage = 1)
+    private void Update()
     {
-        currentHealth -= damage;
-        DisplayHealth(currentHealth);
+        healthBar.Display(currentHealth);
+        armorBar.Display(currentArmor);
+
+        while (currentArmor > 0)
+            isBurdened = true;
+    }
+
+    public void GetHurt(int damage)
+    {
+        if (currentArmor <= 0)
+        {
+            currentHealth -= damage;
+            currentArmor = 0;
+        }
+        else if (currentArmor > 0)
+        {
+            currentHealth -= damage / 2;
+            currentArmor -= 1;
+        }
+
         if (currentHealth < minHealth && isAlive)
             Die();
+    }
+
+    public void GetHurt()
+    {
+        currentHealth -= 1;       
+
+        if (currentHealth <= minHealth)
+        {
+            currentHealth = 1;
+            canCast = false;
+        }
     }
 
     public void Heal(int healingAmount = 10)
     {
         currentHealth += healingAmount;
-        if (currentHealth > 100)
-            currentHealth = 100;
+        if (currentHealth > maxStat)
+            currentHealth = maxStat;
 
-        DisplayHealth(currentHealth);
+        if (currentHealth > 1)
+        {
+            canCast = true;
+        }
+    }
+
+    public void AddArmor(int armorAmount)
+    {
+        currentArmor += armorAmount;
+        if (currentArmor > maxStat)
+            currentArmor = maxStat;
     }
 
     public void Die()
     {
         isAlive = false;
-        DisplayHealth(0);
-    }
-
-    private void DisplayHealth(int health)
-    {
-        if (health > 0)
-            healthBar.text = health.ToString();
-        else
-            healthBar.text = "Dead";
     }
 
     private void OnDisable()
     {
         HealthCrystal.IsPickedUp -= Heal;
+        Armor.isPickedUp -= AddArmor;
     }
 }

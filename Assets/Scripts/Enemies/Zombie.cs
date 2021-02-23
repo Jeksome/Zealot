@@ -25,6 +25,6 @@ public class Zombie : Enemy
     public override void HitPlayer()  
     {
         attackDamage = Random.Range(1, 4);
-        player.Hurt(attackDamage);
+        player.GetHurt(attackDamage);
     }
 }

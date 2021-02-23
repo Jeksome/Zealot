@@ -25,6 +25,6 @@ public class AntDemon : Enemy
     public override void HitPlayer()  
     {
         attackDamage = Random.Range(4, 10);
-        player.Hurt(attackDamage);
+        player.GetHurt(attackDamage);
     }
 }
