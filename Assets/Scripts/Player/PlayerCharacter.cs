@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using TMPro;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -32,8 +31,10 @@ public class PlayerCharacter : MonoBehaviour
         healthBar.Display(currentHealth);
         armorBar.Display(currentArmor);
 
-        while (currentArmor > 0)
+        if (currentArmor > 0)
             isBurdened = true;
+        else
+            isBurdened = false;
     }
 
     public void GetHurt(int damage)
