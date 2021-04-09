@@ -2,17 +2,17 @@
 
 public class PlayerCharacter : MonoBehaviour
 {
+    private const int minHealth = 1;
+    private const int maxStat = 100;
+    private int currentHealth;
+    private int currentArmor;
+
     public bool CanCast { get { return canCast; } }
     private bool canCast = true;
     public bool IsBurdened { get { return isBurdened; } }
     private bool isBurdened;
 
-    private bool isAlive = true;   
-
-    private const int minHealth = 1;
-    private const int maxStat = 100;
-    private int currentHealth;
-    private int currentArmor;
+    private bool isAlive = true;     
 
     #pragma warning disable 0649
     [SerializeField] HealthBar healthBar;

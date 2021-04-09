@@ -16,7 +16,7 @@ public class PlayerInput : MonoBehaviour
     private CharacterController playerController;
     private PlayerCharacter player;
     
-    private const float jumpHeight = 1f;
+    private const float jumpHeight = 1.2f;
     private const float groundDistance = 0.2f;
     private const float gravity = -9.8f;
     private const float movementSpeedModifier = 3.0f;

@@ -17,8 +17,7 @@ public class AntDemon : Enemy
         currentHealth = maxHealth;
         minHealth = 1;
         attackRate = 1.3f;
-        //sightDistance = 10f;
-        sightDistance = 0.5f;
+        sightDistance = 10f;
         runningSpeed = 7;
         waypointChangeDistance = 0.5f;
     }

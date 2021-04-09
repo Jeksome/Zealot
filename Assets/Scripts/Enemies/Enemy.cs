@@ -44,7 +44,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == Player.gameObject && state != State.Dead)
+        if (other.gameObject == Player.gameObject && currentHealth > 0)
             state = State.Attacking;
     }
 
@@ -91,8 +91,8 @@ public abstract class Enemy : MonoBehaviour
             state = State.Attacking;
             enemyAnimator.SetBool("isAttacking", true);
             enemyAgent.isStopped = true;
-            nextAttackTime = Time.time + attackRate;
-        }
+            nextAttackTime = Time.time + attackRate;           
+        }       
     }
 
     public abstract void HitPlayer();  //Method called as attack animation action   
