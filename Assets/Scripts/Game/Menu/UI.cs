@@ -1,18 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject userInterfaceWindow;
+    [SerializeField] private GameObject bootCamera;
+    [SerializeField] private GameObject startButton;
+    [SerializeField] private GameObject continueButton;
+    [SerializeField] private GameObject restartButton;
 
-    // Update is called once per frame
-    void Update()
+    private void Start() => GameManager.Instance.OnGameStateChange.AddListener(HandleGameStateChanged);
+
+    private void HandleGameStateChanged(GameManager.GameState currentState, GameManager.GameState previousState)
     {
-        
+        if (previousState == GameManager.GameState.PREGAME && currentState == GameManager.GameState.RUNNING)
+        {
+            userInterfaceWindow.SetActive(false);
+            bootCamera.SetActive(false);
+            startButton.SetActive(false);
+            continueButton.SetActive(true);
+            restartButton.SetActive(true);
+        }
+        else if (previousState == GameManager.GameState.RUNNING && currentState == GameManager.GameState.PAUSED)
+            userInterfaceWindow.SetActive(true);
+        else if (previousState == GameManager.GameState.PAUSED && currentState == GameManager.GameState.RUNNING)
+            userInterfaceWindow.SetActive(false);
     }
 }

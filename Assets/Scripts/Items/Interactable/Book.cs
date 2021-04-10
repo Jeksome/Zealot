@@ -15,8 +15,9 @@ public class Book : MonoBehaviour, IReadable
     {
         text.gameObject.SetActive(true);
         Time.timeScale = 0;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        //Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
+        CursorLocker.UnlockCursor();
     }
 
     public void CloseBook()
@@ -24,8 +25,9 @@ public class Book : MonoBehaviour, IReadable
         text.gameObject.SetActive(false);
         textRus.gameObject.SetActive(false);
         Time.timeScale = 1;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        CursorLocker.LockCursor();
     }
 
     public void TranslateToRus()

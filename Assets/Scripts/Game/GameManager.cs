@@ -1,24 +1,50 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    private string currentLevel = string.Empty;
-    private List<AsyncOperation> loadOperations;
+    public enum GameState  { PREGAME, RUNNING, PAUSED }
+    private GameState currentGameState = GameState.PREGAME;
 
-    private void Start()
+    public GameState CurrentGameState
     {
-        DontDestroyOnLoad(gameObject);
-        loadOperations = new List<AsyncOperation>();
-        //LoadLevel("Level1");
+        get { return currentGameState; }
+        private set { currentGameState = value; }
+    }
+      
+    public Events.EventGameState OnGameStateChange;
+
+    private string currentLevel = string.Empty;
+
+    private void Start() => DontDestroyOnLoad(gameObject);
+
+    private void UpdateState(GameState state)
+    {
+        GameState previousGameState = currentGameState;
+        currentGameState = state;       
+
+        switch (currentGameState)
+        {
+            case GameState.PREGAME:
+                Time.timeScale = 1f;
+                CursorLocker.LockCursor();
+                break;
+            case GameState.RUNNING:
+                Time.timeScale = 1f;
+                CursorLocker.LockCursor();
+                break;
+            case GameState.PAUSED:
+                Time.timeScale = 0;
+                CursorLocker.UnlockCursor();
+                break;
+        }
+
+        OnGameStateChange.Invoke(currentGameState, previousGameState);
     }
 
     public void LoadLevel (string levelName)
     {
-        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(levelName);
+        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
         
         if (sceneLoadOperation == null)
         {
@@ -26,18 +52,11 @@ public class GameManager : Singleton<GameManager>
         }
 
         currentLevel = levelName;
-        sceneLoadOperation.completed += OnLoadOperationComplete;    
-    }
 
-    private void OnLoadOperationComplete(AsyncOperation operation)
-    {
-        if (loadOperations.Contains(operation))
-        {
-            loadOperations.Remove(operation);
-        }
-        Debug.Log("Load complete");
+        UpdateState(GameState.RUNNING);
+        Debug.Log($"State = {currentGameState}");
     }
-
+   
     public void UnloadLevel (string levelName)
     {
         AsyncOperation sceneUnloadOperation = SceneManager.UnloadSceneAsync(levelName);
@@ -48,8 +67,12 @@ public class GameManager : Singleton<GameManager>
         sceneUnloadOperation.completed += OnUnloadOperationComplete;
     }
 
-    private void OnUnloadOperationComplete(AsyncOperation operation)
+    private void OnUnloadOperationComplete(AsyncOperation operation) => Debug.Log("Unload complete");
+    public void TogglePause() => UpdateState(currentGameState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
+    public void RestartGame()
     {
-        Debug.Log("Unload complete");
+        UpdateState(GameState.PREGAME);
+        UnloadLevel(currentLevel);
+        LoadLevel("level1");
     }
 }

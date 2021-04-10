@@ -59,6 +59,11 @@ public class PlayerInput : MonoBehaviour
         movement = transform.TransformDirection(movement);
         playerController.Move(movement);
 
+        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.Instance.CurrentGameState  != GameManager.GameState.PREGAME)
+        {
+            GameManager.Instance.TogglePause();
+        }
+
         if (flashlight.IsFound)
         {
             if (Input.GetKeyDown(KeyCode.F))
@@ -86,6 +91,11 @@ public class PlayerInput : MonoBehaviour
         
         if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.W)) && isSprinting)
             StopSprint();
+
+        if (Input.GetKeyDown(KeyCode.S))
+            movingSpeed = movementSpeedModifier;
+        if (Input.GetKeyUp(KeyCode.S))
+            movingSpeed = defaultSpeed;
        
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;

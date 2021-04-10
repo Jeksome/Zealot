@@ -1,21 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MainMenu : MonoBehaviour
-{
-    public void StartGame()
-    {
-        GameManager.Instance.LoadLevel("Level1");
-    }
-
-    public void GameOptions()
-    {
-        Debug.Log("You have no options so far");
-    }
-
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
+{  
+    public void StartGame() => GameManager.Instance.LoadLevel("level1");
+    public void GameOptions() => Debug.Log("No options implemented so far");  
+    public void Continue() => GameManager.Instance.TogglePause();
+    public void Restart() => GameManager.Instance.RestartGame();
+    public void ExitGame() => Application.Quit();
 }

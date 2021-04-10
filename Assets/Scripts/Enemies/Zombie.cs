@@ -10,7 +10,7 @@ public class Zombie : Enemy
         enemyAgent = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponent<Animator>();
         enemyAnimator.SetBool("isWalking", true);
-        state = State.Patroling;
+        state = State.PATROLING;
 
         Player = player;
         maxHealth = 5;
@@ -18,7 +18,7 @@ public class Zombie : Enemy
         minHealth = 1;
         attackRate = 0.5f;
         sightDistance = 7f; 
-        runningSpeed = 3;
+        runningSpeed = 5;
         waypointChangeDistance = 0.5f;
     }   
 

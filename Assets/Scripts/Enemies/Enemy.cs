@@ -4,8 +4,8 @@ using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    protected enum State { Patroling, Chasing, Attacking, Hitting, Dying, Dead }
-    protected State state;
+    protected enum State { PATROLING, CHASING, ATTACKING, DYING, DEAD }
+    protected State state = State.PATROLING;
     protected NavMeshAgent enemyAgent;
     protected Animator enemyAnimator;
     protected PlayerCharacter Player;
@@ -22,22 +22,22 @@ public abstract class Enemy : MonoBehaviour
     protected void Update() => distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
 
     protected void FixedUpdate()
-    {                     
+    {      
         switch (state)
         {
-            case State.Patroling:
+            case State.PATROLING:
                 Patrol();
                 break;
-            case State.Chasing:
+            case State.CHASING:
                 Chase();
                 break;
-            case State.Attacking:
+            case State.ATTACKING:
                 Attack();
                 break;
-            case State.Dying:
+            case State.DYING:
                 Die();
                 break;
-            case State.Dead:
+            case State.DEAD:
                 break;
         }
     }
@@ -45,12 +45,12 @@ public abstract class Enemy : MonoBehaviour
     protected void OnTriggerStay(Collider other)
     {
         if (other.gameObject == Player.gameObject && currentHealth > 0)
-            state = State.Attacking;
+            state = State.ATTACKING;
     }
 
     protected void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == Player.gameObject && state != State.Dead)
+        if (other.gameObject == Player.gameObject && state != State.DEAD)
             StartCoroutine(ContinueChasing(attackRate));
     }
     protected void Patrol()
@@ -58,7 +58,7 @@ public abstract class Enemy : MonoBehaviour
         if (!enemyAgent.pathPending && enemyAgent.remainingDistance < waypointChangeDistance)
             MoveToNextWaypoint();
         else if (distanceToPlayer < sightDistance)
-            state = State.Chasing;
+            state = State.CHASING;
     }
 
     protected void MoveToNextWaypoint()
@@ -71,7 +71,7 @@ public abstract class Enemy : MonoBehaviour
     {
         isChasing = true;
         enemyAgent.speed = runningSpeed;
-        enemyAgent.acceleration += 2;
+        enemyAgent.acceleration += 4;
         enemyAgent.destination = Player.gameObject.transform.position;
         enemyAnimator.SetBool("isRunning", true);
     }
@@ -81,14 +81,14 @@ public abstract class Enemy : MonoBehaviour
         yield return new WaitForSeconds(attackDelay);
         enemyAnimator.SetBool("isAttacking", false);
         enemyAgent.isStopped = false;
-        state = State.Chasing;
+        state = State.CHASING;
     }
 
     protected void Attack()
     {
         if (nextAttackTime < Time.time)
         {
-            state = State.Attacking;
+            state = State.ATTACKING;
             enemyAnimator.SetBool("isAttacking", true);
             enemyAgent.isStopped = true;
             nextAttackTime = Time.time + attackRate;           
@@ -99,19 +99,24 @@ public abstract class Enemy : MonoBehaviour
 
     public void RecieveDamage(int damage)
     {
-        if (state != State.Dead)
+        if (state != State.DEAD)
         {
             currentHealth -= damage;
-            if (state != State.Chasing)
-                state = State.Chasing;
-            else if (currentHealth < minHealth)
-                state = State.Dying;
+
+            if (isChasing != true)
+            {
+                state = State.CHASING;
+                isChasing = true;
+            }
+               
+            if (currentHealth < minHealth)
+                state = State.DYING;
         }
     }
 
     public void Bleed(Vector3 pos, Quaternion rot)
     {
-            GameObject bleedEffect = ObjectPooler.SharedInstance.GetPooledObject("Blood");
+            GameObject bleedEffect = ObjectPooler.Instance.GetPooledObject("Blood");
             if (bleedEffect != null)
             {
                 bleedEffect.transform.position = pos;
@@ -126,6 +131,6 @@ public abstract class Enemy : MonoBehaviour
         enemyAnimator.SetBool("isDying", true);
         enemyAgent.isStopped = true;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
-        state = State.Dead;
+        state = State.DEAD;
     }
 }

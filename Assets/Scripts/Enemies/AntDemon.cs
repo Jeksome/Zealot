@@ -10,7 +10,7 @@ public class AntDemon : Enemy
         enemyAgent = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponent<Animator>();
         enemyAnimator.SetBool("isWalking", true);
-        state = State.Patroling;
+        state = State.PATROLING;
 
         Player = player;
         maxHealth = 9; 
@@ -18,7 +18,7 @@ public class AntDemon : Enemy
         minHealth = 1;
         attackRate = 1.3f;
         sightDistance = 10f;
-        runningSpeed = 7;
+        runningSpeed = 8;
         waypointChangeDistance = 0.5f;
     }
 

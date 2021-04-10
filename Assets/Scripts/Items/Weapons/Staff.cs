@@ -42,7 +42,7 @@ public class Staff : Weapon
 
     public override void ProjectileLaunch(Vector3 target)    
     {
-        GameObject projectile = ObjectPooler.SharedInstance.GetPooledObject("Missile");
+        GameObject projectile = ObjectPooler.Instance.GetPooledObject("Missile");
         if (projectile != null)
         {
             float velocityMultiplier = 20f;

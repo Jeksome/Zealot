@@ -25,8 +25,8 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter(Collision target)
     {
         HitDetector hitObject = target.transform.gameObject.GetComponent<HitDetector>();
-        GameObject onHitblast = ObjectPooler.SharedInstance.GetPooledObject("ExplosionBig");
-        GameObject onMissblast = ObjectPooler.SharedInstance.GetPooledObject("ExplosionSmall");
+        GameObject onHitblast = ObjectPooler.Instance.GetPooledObject("ExplosionBig");
+        GameObject onMissblast = ObjectPooler.Instance.GetPooledObject("ExplosionSmall");
 
         if (hitObject)
         {

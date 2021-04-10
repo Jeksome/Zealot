@@ -9,16 +9,10 @@ public class ObjectPoolItem
     public int amountToPool;
 }
 
-public class ObjectPooler : MonoBehaviour
+public class ObjectPooler : Singleton<ObjectPooler>
 {
-    public static ObjectPooler SharedInstance;
     public List<ObjectPoolItem> itemsToPool;
-    public List<GameObject> pooledObjects;   
-
-    private void Awake()
-    {
-        SharedInstance = this;
-    }
+    public List<GameObject> pooledObjects;
 
     private void Start()
     {
@@ -31,7 +25,7 @@ public class ObjectPooler : MonoBehaviour
                 obj.SetActive(false);
                 pooledObjects.Add(obj);
             }
-        }
+        }     
     }
 
     public GameObject GetPooledObject(string tag)
@@ -54,5 +48,14 @@ public class ObjectPooler : MonoBehaviour
             }
         }
         return null;
-    }    
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log("pooled objects are cleared");
+        foreach (GameObject gameObject in pooledObjects)
+        {
+            Destroy(gameObject);
+        }
+    }
 }
