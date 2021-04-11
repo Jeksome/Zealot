@@ -1,15 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileEffectDisappear : MonoBehaviour {
 
 	private readonly float lifeTime = 1.2f;
 
-    private void OnEnable()
-    {
-		StartCoroutine(Disappear());
-    }
+    private void OnEnable() => StartCoroutine(Disappear());
 
     private IEnumerator Disappear()
 	{

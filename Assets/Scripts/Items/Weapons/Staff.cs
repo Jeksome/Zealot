@@ -2,9 +2,12 @@
 
 public class Staff : Weapon
 {
+    #pragma warning disable 0649
     [SerializeField] private Transform weaponTip;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private PlayerCharacter player;
+    #pragma warning restore 0649
+
     private Animator staffAnimator;
     private float nextFire;
 

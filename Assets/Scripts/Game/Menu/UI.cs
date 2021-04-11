@@ -2,11 +2,13 @@
 
 public class UI : MonoBehaviour
 {
+    #pragma warning disable 0649
     [SerializeField] private GameObject userInterfaceWindow;
     [SerializeField] private GameObject bootCamera;
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject continueButton;
     [SerializeField] private GameObject restartButton;
+    #pragma warning restore 0649
 
     private void Start() => GameManager.Instance.OnGameStateChange.AddListener(HandleGameStateChanged);
 

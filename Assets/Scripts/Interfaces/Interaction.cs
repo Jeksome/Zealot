@@ -13,6 +13,4 @@ public interface IReadable : IInteractable
 {
     void ReadBook();
     void CloseBook();
-    void TranslateToEng();
-    void TranslateToRus();
 }

@@ -3,7 +3,9 @@ using UnityEngine.AI;
 
 public class AntDemon : Enemy
 {
+    #pragma warning disable 0649
     [SerializeField] private PlayerCharacter player;
+    #pragma warning restore 0649
 
     private void Start()
     {

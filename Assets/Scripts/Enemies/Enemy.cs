@@ -17,7 +17,9 @@ public abstract class Enemy : MonoBehaviour
     protected float attackRate;
     protected bool isChasing;
 
+    #pragma warning disable 0649
     [SerializeField] private Transform[] waypoints;
+    #pragma warning restore 0649
 
     protected void Update() => distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
 

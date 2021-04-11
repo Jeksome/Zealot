@@ -2,7 +2,10 @@
 
 public class MouseLook : MonoBehaviour
 {
+    #pragma warning disable 0649
     [SerializeField] private Transform playerBody;
+    #pragma warning restore 0649
+
     private Camera playerCamera;
     private float xRotation = 0f; 
     private float mouseSens = 300f;  

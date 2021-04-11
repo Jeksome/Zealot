@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class Flashlight : MonoBehaviour
 {
-    [SerializeField] private PlayerCharacter player;   
+    #pragma warning disable 0649
+    [SerializeField] private PlayerCharacter player;
+    #pragma warning restore 0649
+
     private Light glowingLight;
     private bool isOn;
     private readonly float intensityMultiplier = 1f; 

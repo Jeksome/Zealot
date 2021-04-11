@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private Flashlight flashlight;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform ceilingCheck;
-    [SerializeField] private Text state; 
+    [SerializeField] private GroundCheck groundCheckDisplay;
     #pragma warning restore 0649
 
     private Vector3 velocity;
@@ -38,17 +38,6 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        if (isGrounded)
-        {
-            state.text = "Grounded";
-            state.color = Color.green;
-        }
-        else
-        {
-            state.text = "In air";
-            state.color = Color.red;
-        }
-
         horizontalInput = Input.GetAxis("Horizontal") * movingSpeed;
         verticalInput = Input.GetAxis("Vertical") * movingSpeed;
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -105,6 +94,8 @@ public class PlayerInput : MonoBehaviour
         
         velocity.y += gravity * Time.deltaTime;
         playerController.Move(velocity * Time.deltaTime);
+
+        groundCheckDisplay.GetStatus(isGrounded);
     }
     
     private void NormalizePlayer()

@@ -1,19 +1,12 @@
 ﻿using UnityEngine;
 
 public class MouseInteraction : MonoBehaviour
-{
-    
+{    
     private Camera playerCamera;
     private const float rayLenght = 3.5f;
 
-    void Start()
-    {
-        playerCamera = GetComponent<Camera>();
-    }
-    void Update()
-    {
-        SearchForPickUp();
-    }
+    private void Start() => playerCamera = GetComponent<Camera>();
+    private void Update() => SearchForPickUp();
 
     private void SearchForPickUp()
     {

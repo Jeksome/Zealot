@@ -54,7 +54,6 @@ public class GameManager : Singleton<GameManager>
         currentLevel = levelName;
 
         UpdateState(GameState.RUNNING);
-        Debug.Log($"State = {currentGameState}");
     }
    
     public void UnloadLevel (string levelName)

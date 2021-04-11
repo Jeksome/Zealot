@@ -2,7 +2,10 @@
 
 public class SecretSwitch : MonoBehaviour, IInteractable
 {
+    #pragma warning disable 0649
     [SerializeField] private GameObject secretPassage;
+    #pragma warning restore 0649
+
     private Animator switchAnimator;
     private bool activated;
 
@@ -17,5 +20,4 @@ public class SecretSwitch : MonoBehaviour, IInteractable
             activated = true;
         }       
     }
-
 }

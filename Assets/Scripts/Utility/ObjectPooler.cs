@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -52,7 +51,6 @@ public class ObjectPooler : Singleton<ObjectPooler>
 
     private void OnDisable()
     {
-        Debug.Log("pooled objects are cleared");
         foreach (GameObject gameObject in pooledObjects)
         {
             Destroy(gameObject);

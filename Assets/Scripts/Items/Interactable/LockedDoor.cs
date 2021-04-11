@@ -2,7 +2,9 @@
 
 public class LockedDoor : Openable, IOpenable
 {
-    [SerializeField] private Key key;  
+    #pragma warning disable 0649
+    [SerializeField] private Key key;
+    #pragma warning restore 0649
 
     void Start()
     {

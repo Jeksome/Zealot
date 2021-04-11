@@ -21,7 +21,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxStat;
+        currentHealth = 25;
         HealthCrystal.IsPickedUp += Heal;
         Armor.isPickedUp += AddArmor;
     }
@@ -72,9 +72,7 @@ public class PlayerCharacter : MonoBehaviour
             currentHealth = maxStat;
 
         if (currentHealth > 1)
-        {
             canCast = true;
-        }
     }
 
     public void AddArmor(int armorAmount)
@@ -84,10 +82,7 @@ public class PlayerCharacter : MonoBehaviour
             currentArmor = maxStat;
     }
 
-    public void Die()
-    {
-        isAlive = false;
-    }
+    public void Die() => isAlive = false;
 
     private void OnDisable()
     {
