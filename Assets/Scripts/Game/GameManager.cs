@@ -5,6 +5,8 @@ public class GameManager : Singleton<GameManager>
 {
     public enum GameState  { PREGAME, RUNNING, PAUSED }
     private GameState currentGameState = GameState.PREGAME;
+    private AsyncOperation sceneLoadOperation;
+    private AsyncOperation loadingScreen;
 
     public GameState CurrentGameState
     {
@@ -42,36 +44,36 @@ public class GameManager : Singleton<GameManager>
         OnGameStateChange.Invoke(currentGameState, previousGameState);
     }
 
-    public void LoadLevel (string levelName)
+    public void TryToLoadLevel (string levelName)
     {
-        AsyncOperation sceneLoadOperation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
-        
-        if (sceneLoadOperation == null)
-        {
-            Debug.Log("[Game Manager] unable to load the level" + levelName);
-        }
-
+        loadingScreen = SceneManager.LoadSceneAsync("loading", LoadSceneMode.Additive);
+        loadingScreen.completed += LoadingScreenLoaded;
         currentLevel = levelName;
+    }
+
+    private void LoadLevel()
+    {
+        sceneLoadOperation = SceneManager.LoadSceneAsync(currentLevel, LoadSceneMode.Additive);
+        sceneLoadOperation.completed += OnLoadOperationComplete;
 
         UpdateState(GameState.RUNNING);
+        UnloadLevel("loading");
     }
    
     public void UnloadLevel (string levelName)
-    {
+    {      
         AsyncOperation sceneUnloadOperation = SceneManager.UnloadSceneAsync(levelName);
-        if ( sceneUnloadOperation  ==  null)
-        {
-            Debug.Log("[Game Manager] unable to unload the level" + levelName);
-        }
         sceneUnloadOperation.completed += OnUnloadOperationComplete;
     }
 
+    private void LoadingScreenLoaded(AsyncOperation operation) => Invoke("LoadLevel", 2f);
+    private void OnLoadOperationComplete(AsyncOperation operation) => UnloadLevel("loading");
     private void OnUnloadOperationComplete(AsyncOperation operation) => Debug.Log("Unload complete");
     public void TogglePause() => UpdateState(currentGameState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
     public void RestartGame()
     {
         UpdateState(GameState.PREGAME);
         UnloadLevel(currentLevel);
-        LoadLevel("level1");
+        TryToLoadLevel("level1");
     }
 }
