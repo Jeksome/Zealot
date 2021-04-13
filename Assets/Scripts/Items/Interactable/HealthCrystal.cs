@@ -2,7 +2,9 @@
 
 public class HealthCrystal : MonoBehaviour, IInteractable
 {
-    private int healAmount = 10;
+    #pragma warning disable 0649
+    [SerializeField][Range(1, 15)] private int healAmount = 10;
+    #pragma warning disable 0649
 
     public delegate void CrystalPickedUp(int healAmount);
     public static event CrystalPickedUp IsPickedUp;

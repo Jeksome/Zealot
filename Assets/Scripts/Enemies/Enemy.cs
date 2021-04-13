@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,14 +12,17 @@ public abstract class Enemy : MonoBehaviour
     protected PlayerCharacter Player;
     protected int currentHealth, minHealth, maxHealth;
     protected int attackDamage;
-    protected int runningSpeed;
-    protected float distanceToPlayer, sightDistance, waypointChangeDistance;
+    protected int runningSpeed;   
     protected float nextAttackTime;
     protected float attackRate;
     protected bool isChasing;
+    protected float distanceToPlayer;
+    protected float waypointChangeDistance = 0.5f;
 
     #pragma warning disable 0649
     [SerializeField] private Transform[] waypoints;
+    [SerializeField] protected float sightDistance = 7f;
+    [SerializeField] protected List<Enemy> enemiesNearby;
     #pragma warning restore 0649
 
     protected void Update() => distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
@@ -46,21 +50,24 @@ public abstract class Enemy : MonoBehaviour
 
     protected void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == Player.gameObject && currentHealth > 0)
+        if (other.gameObject == Player.gameObject && state != State.DEAD)
             state = State.ATTACKING;
     }
 
     protected void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == Player.gameObject && state != State.DEAD)
+        if (other.gameObject == Player.gameObject && (state != State.DEAD))
             StartCoroutine(ContinueChasing(attackRate));
     }
     protected void Patrol()
     {
-        if (!enemyAgent.pathPending && enemyAgent.remainingDistance < waypointChangeDistance)
+        if (!enemyAgent.pathPending && enemyAgent.remainingDistance < waypointChangeDistance && state != State.DEAD)
             MoveToNextWaypoint();
         else if (distanceToPlayer < sightDistance)
-            state = State.CHASING;
+        {
+            BecomeAgressive();
+            WarnOtherEnemies();
+        }
     }
 
     protected void MoveToNextWaypoint()
@@ -69,13 +76,33 @@ public abstract class Enemy : MonoBehaviour
         enemyAgent.destination = waypoints[wpNumber].position;
     }
 
+    protected void WarnOtherEnemies()
+    {
+        if (enemiesNearby == null)
+        {
+            return;
+        }
+        else
+        {
+            foreach (Enemy enemy in enemiesNearby)
+            {
+                enemy.BecomeAgressive();
+            }
+        }
+    }
+
+    public void BecomeAgressive() => state = State.CHASING;
+
     protected void Chase()
     {
-        isChasing = true;
-        enemyAgent.speed = runningSpeed;
-        enemyAgent.acceleration += 4;
-        enemyAgent.destination = Player.gameObject.transform.position;
-        enemyAnimator.SetBool("isRunning", true);
+        if (state != State.DEAD)
+        {
+            isChasing = true;
+            enemyAgent.speed = runningSpeed;
+            enemyAgent.acceleration += 4;
+            enemyAgent.destination = Player.gameObject.transform.position;
+            enemyAnimator.SetBool("isRunning", true);
+        }       
     }
 
     private IEnumerator ContinueChasing(float attackDelay)
@@ -103,16 +130,16 @@ public abstract class Enemy : MonoBehaviour
     {
         if (state != State.DEAD)
         {
+            if (currentHealth < minHealth)
+                state = State.DYING;
+
             currentHealth -= damage;
 
             if (isChasing != true)
             {
-                state = State.CHASING;
-                isChasing = true;
-            }
-               
-            if (currentHealth < minHealth)
-                state = State.DYING;
+                BecomeAgressive();
+                WarnOtherEnemies();
+            }                  
         }
     }
 
@@ -129,10 +156,11 @@ public abstract class Enemy : MonoBehaviour
 
     protected void Die()
     {
+        state = State.DEAD;
         currentHealth = 0;
         enemyAnimator.SetBool("isDying", true);
         enemyAgent.isStopped = true;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
-        state = State.DEAD;
+        gameObject.GetComponent<Rigidbody>().isKinematic = false;       
     }
 }

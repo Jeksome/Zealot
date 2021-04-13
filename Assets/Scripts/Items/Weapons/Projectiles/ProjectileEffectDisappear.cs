@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ProjectileEffectDisappear : MonoBehaviour {
 
-	private readonly float lifeTime = 1.2f;
+	private readonly float lifeTime = 1.95f;
 
     private void OnEnable() => StartCoroutine(Disappear());
 

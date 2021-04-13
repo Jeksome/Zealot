@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public abstract class StatusBar : MonoBehaviour
 {
-    protected TMP_Text bar;
+    protected Text bar;
     protected string emptyBarText;
 
     public void Display(int stat)

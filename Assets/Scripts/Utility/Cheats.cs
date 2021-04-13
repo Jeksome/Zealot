@@ -33,7 +33,6 @@ public class Cheats : MonoBehaviour
 
     private IEnumerator IncreaseHealth()
     {
-        player.AddArmor(100);
         player.Heal(100);
         yield return new WaitForSeconds(0.1f);           
     }

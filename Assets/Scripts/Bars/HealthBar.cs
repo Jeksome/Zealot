@@ -1,10 +1,10 @@
-﻿using TMPro;
+﻿using UnityEngine.UI;
 
 public class HealthBar : StatusBar
 {
     void Start()
     {
-        bar = GetComponent<TMP_Text>();
+        bar = GetComponent<Text>();
         emptyBarText = "Dead";
     }
 }

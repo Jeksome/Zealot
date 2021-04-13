@@ -19,9 +19,8 @@ public class AntDemon : Enemy
         currentHealth = maxHealth;
         minHealth = 1;
         attackRate = 1.3f;
-        sightDistance = 10f;
         runningSpeed = 8;
-        waypointChangeDistance = 0.5f;
+        sightDistance += 3;
     }
 
     public override void HitPlayer()  

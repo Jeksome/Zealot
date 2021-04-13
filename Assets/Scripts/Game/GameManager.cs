@@ -17,6 +17,7 @@ public class GameManager : Singleton<GameManager>
     public Events.EventGameState OnGameStateChange;
 
     private string currentLevel = string.Empty;
+    private string previousLevel = string.Empty;
 
     private void Start() => DontDestroyOnLoad(gameObject);
 
@@ -66,14 +67,28 @@ public class GameManager : Singleton<GameManager>
         sceneUnloadOperation.completed += OnUnloadOperationComplete;
     }
 
-    private void LoadingScreenLoaded(AsyncOperation operation) => Invoke("LoadLevel", 2f);
+    public void GameOver()
+    {
+        previousLevel = currentLevel;
+        Time.timeScale = 0;       
+        SceneManager.LoadScene("GameOver", LoadSceneMode.Additive);       
+        currentLevel = "GameOver";
+        if (previousLevel != null)
+        {
+            UnloadLevel(previousLevel);
+            previousLevel = string.Empty;
+        }
+        CursorLocker.UnlockCursor();
+    }
+
+    private void LoadingScreenLoaded(AsyncOperation operation) => Invoke("LoadLevel", 0.1f);
     private void OnLoadOperationComplete(AsyncOperation operation) => UnloadLevel("loading");
     private void OnUnloadOperationComplete(AsyncOperation operation) => Debug.Log("Unload complete");
     public void TogglePause() => UpdateState(currentGameState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
     public void RestartGame()
     {
-        UpdateState(GameState.PREGAME);
-        UnloadLevel(currentLevel);
+        UpdateState(GameState.PREGAME);        
+        UnloadLevel(currentLevel);       
         TryToLoadLevel("level1");
     }
 }

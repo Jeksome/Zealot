@@ -10,9 +10,7 @@ public class PlayerCharacter : MonoBehaviour
     public bool CanCast { get { return canCast; } }
     private bool canCast = true;
     public bool IsBurdened { get { return isBurdened; } }
-    private bool isBurdened;
-
-    private bool isAlive = true;     
+    private bool isBurdened;   
 
     #pragma warning disable 0649
     [SerializeField] HealthBar healthBar;
@@ -50,7 +48,7 @@ public class PlayerCharacter : MonoBehaviour
             currentArmor -= 1;
         }
 
-        if (currentHealth < minHealth && isAlive)
+        if (currentHealth < minHealth)
             Die();
     }
 
@@ -82,7 +80,7 @@ public class PlayerCharacter : MonoBehaviour
             currentArmor = maxStat;
     }
 
-    public void Die() => isAlive = false;
+    public void Die() => GameManager.Instance.GameOver();
 
     private void OnDisable()
     {

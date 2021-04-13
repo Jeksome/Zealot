@@ -19,9 +19,7 @@ public class Zombie : Enemy
         currentHealth = maxHealth;
         minHealth = 1;
         attackRate = 0.5f;
-        sightDistance = 7f; 
         runningSpeed = 5;
-        waypointChangeDistance = 0.5f;
     }   
 
     public override void HitPlayer()  
