@@ -14,7 +14,7 @@ public class PlayerCharacter : MonoBehaviour
 
     #pragma warning disable 0649
     [SerializeField] HealthBar healthBar;
-    [SerializeField] ArmorBar armorBar;
+    [SerializeField] ArmorBar armorBar;    
     #pragma warning restore 0649
 
     private void Start()

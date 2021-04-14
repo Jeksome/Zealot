@@ -9,7 +9,7 @@ public class LockedDoor : Openable, IOpenable
     void Start()
     {
         itemAnimator = GetComponent<Animator>();
-        animationPlayingTimer = 1;
+        animationPlayingTimer = 2.3f;
     }
 
     public override void Interact()

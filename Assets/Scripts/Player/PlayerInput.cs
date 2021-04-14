@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -14,8 +13,9 @@ public class PlayerInput : MonoBehaviour
 
     private Vector3 velocity;
     private CharacterController playerController;
-    private PlayerCharacter player;
-    
+    private PlayerCharacter playerCharacter;
+    private PlayerAudio playerAudio;
+
     private const float jumpHeight = 1.2f;
     private const float groundDistance = 0.2f;
     private const float gravity = -9.8f;
@@ -25,12 +25,13 @@ public class PlayerInput : MonoBehaviour
     private float movingSpeed;
     private float defaultSpeed;
     private float horizontalInput, verticalInput;
-    private bool isGrounded, isSprinting, isCrouching, isTouchingCeiling, hasStoppedCrouching;
+    private bool isGrounded, isSprinting, isCrouching, isTouchingCeiling, hasStoppedCrouching, isWalkingBackwards;
     
     private void Start()
     {       
         playerController = GetComponent<CharacterController>();
-        player = GetComponent<PlayerCharacter>();
+        playerCharacter = GetComponent<PlayerCharacter>();
+        playerAudio = GetComponent<PlayerAudio>();
         playerHight = playerController.height;
         defaultSpeed = 5.0f;
         movingSpeed = defaultSpeed;
@@ -47,6 +48,11 @@ public class PlayerInput : MonoBehaviour
         movement = Vector3.ClampMagnitude(movement, movingSpeed) * Time.deltaTime;
         movement = transform.TransformDirection(movement);
         playerController.Move(movement);
+
+        if (isGrounded && playerController.velocity.magnitude > 2f && playerAudio.GetComponent<AudioSource>().isPlaying == false)
+        {
+            playerAudio.ToggleFootstep(isSprinting, isWalkingBackwards);
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape) && GameManager.Instance.CurrentGameState  != GameManager.GameState.PREGAME)
         {
@@ -75,17 +81,24 @@ public class PlayerInput : MonoBehaviour
         if (!isTouchingCeiling && Input.GetKey(KeyCode.LeftControl) == false && !hasStoppedCrouching)
             NormalizePlayer();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded && Input.GetKey(KeyCode.W) && !isCrouching && !isSprinting && player.CanCast && player.IsBurdened == false)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded && Input.GetKey(KeyCode.W) && !isCrouching && !isSprinting && playerCharacter.CanCast && playerCharacter.IsBurdened == false)
             StartSprint();
         
         if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.W)) && isSprinting)
             StopSprint();
 
         if (Input.GetKeyDown(KeyCode.S))
+        {
             movingSpeed = movementSpeedModifier;
+            isWalkingBackwards = true;
+        }
+
         if (Input.GetKeyUp(KeyCode.S))
+        {
             movingSpeed = defaultSpeed;
-       
+            isWalkingBackwards = false;
+        }
+                 
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
@@ -96,8 +109,8 @@ public class PlayerInput : MonoBehaviour
         playerController.Move(velocity * Time.deltaTime);
 
         groundCheckDisplay.GetStatus(isGrounded);
-    }
-    
+    }   
+
     private void NormalizePlayer()
     {
         playerController.height = playerHight;
@@ -106,10 +119,7 @@ public class PlayerInput : MonoBehaviour
         isCrouching = false;
     }
 
-    private void ChangeMovementSpeed(float modifier)
-    {
-        movingSpeed += modifier;
-    }
+    private void ChangeMovementSpeed(float modifier) => movingSpeed += modifier;
 
     private void StartCrouch()
     {
@@ -142,7 +152,7 @@ public class PlayerInput : MonoBehaviour
     {                
         while (isSprinting)
         {
-            player.GetHurt();
+            playerCharacter.GetHurt();
             yield return new WaitForSeconds(2f);            
         }
     }
