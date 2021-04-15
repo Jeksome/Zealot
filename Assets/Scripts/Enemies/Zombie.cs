@@ -12,7 +12,6 @@ public class Zombie : Enemy
         enemyAgent = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponent<Animator>();
         enemyAnimator.SetBool("isWalking", true);
-        state = State.PATROLING;
 
         Player = player;
         maxHealth = 5;

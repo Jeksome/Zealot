@@ -5,8 +5,11 @@ using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    protected enum State { PATROLING, CHASING, ATTACKING, DYING, DEAD }
-    protected State state = State.PATROLING;
+    private enum State { PATROLING, CHASING, ATTACKING, DYING, DEAD }
+    private State state = State.PATROLING;
+    private bool isChasing;
+    private float distanceToPlayer;
+
     protected NavMeshAgent enemyAgent;
     protected Animator enemyAnimator;
     protected PlayerCharacter Player;
@@ -14,9 +17,7 @@ public abstract class Enemy : MonoBehaviour
     protected int attackDamage;
     protected int runningSpeed;   
     protected float nextAttackTime;
-    protected float attackRate;
-    protected bool isChasing;
-    protected float distanceToPlayer;
+    protected float attackRate;       
     protected float waypointChangeDistance = 0.5f;
 
     #pragma warning disable 0649
@@ -56,7 +57,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == Player.gameObject && (state != State.DEAD))
+        if (other.gameObject == Player.gameObject && state != State.DEAD && state != State.DYING)
             StartCoroutine(ContinueChasing(attackRate));
     }
     protected void Patrol()
@@ -106,11 +107,11 @@ public abstract class Enemy : MonoBehaviour
     }
 
     private IEnumerator ContinueChasing(float attackDelay)
-    {
-        yield return new WaitForSeconds(attackDelay);
+    {       
         enemyAnimator.SetBool("isAttacking", false);
         enemyAgent.isStopped = false;
         state = State.CHASING;
+        yield return new WaitForSeconds(attackDelay);
     }
 
     protected void Attack()
@@ -157,6 +158,7 @@ public abstract class Enemy : MonoBehaviour
     protected void Die()
     {
         state = State.DEAD;
+
         currentHealth = 0;
         enemyAnimator.SetBool("isDying", true);
         enemyAgent.isStopped = true;

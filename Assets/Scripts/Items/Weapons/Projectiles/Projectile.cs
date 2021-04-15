@@ -8,22 +8,29 @@ public class Projectile : MonoBehaviour
     public int ProjectileDamage { set { projectileDamage = value; } }
     private int projectileDamage; 
 
-    private Rigidbody projectileRb;
+    private Rigidbody projectileRigidBody;
+    private AudioSource projectileAudioSource;
 
     #pragma warning disable 0649
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private GameObject smallHitEffect;
+    [SerializeField] AudioClip projectileSound;
     #pragma warning restore 0649
 
-    private void OnEnable() => projectileRb = GetComponent<Rigidbody>();
+    private void OnEnable()
+    {
+        projectileRigidBody = GetComponent<Rigidbody>();
+        projectileAudioSource = GetComponent<AudioSource>();
+        projectileAudioSource.PlayOneShot(projectileSound);
+    } 
 
-    private void FixedUpdate() => projectileRb.velocity = projectileVelocity;
+    private void FixedUpdate() => projectileRigidBody.velocity = projectileVelocity;
 
     private void OnCollisionEnter(Collision target)
-    {
+    {       
         HitDetector hitObject = target.transform.gameObject.GetComponent<HitDetector>();
         GameObject onHitblast = ObjectPooler.Instance.GetPooledObject("ExplosionBig");
-        GameObject onMissblast = ObjectPooler.Instance.GetPooledObject("ExplosionSmall");
+        GameObject onMissblast = ObjectPooler.Instance.GetPooledObject("ExplosionSmall");        
 
         if (hitObject)
         {
