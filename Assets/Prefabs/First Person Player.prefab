@@ -92,7 +92,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1779004047374099809}
   - component: {fileID: 9059494282245996485}
-  - component: {fileID: 8223212858308064887}
   m_Layer: 10
   m_Name: WeaponCam
   m_TagString: Untagged
@@ -157,20 +156,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &8223212858308064887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5736284254774860685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da08e23c96ac174a8904d56b0681609, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  weapon: {fileID: 0}
 --- !u!1 &7715662884081331426
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,13 +341,7 @@ MonoBehaviour:
   flashlight: {fileID: 1988062606}
   groundCheck: {fileID: 7715662884407743299}
   ceilingCheck: {fileID: 806530160}
-  state: {fileID: 0}
-  movingSpeed: 0
-  isGrounded: 0
-  isSprinting: 0
-  isCrouching: 0
-  isTouchingCeiling: 0
-  hasStoppedCrouching: 0
+  groundCheckDisplay: {fileID: 0}
 --- !u!114 &4284405733057211440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,8 +354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8101372cd757840a3f93214218bd06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 100
   healthBar: {fileID: 0}
+  armorBar: {fileID: 0}
 --- !u!65 &1730041098
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -418,6 +397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 4284405733057211440}
   staff: {fileID: 1015108221}
+  frameCounter: {fileID: 0}
+  groundCheck: {fileID: 0}
 --- !u!1 &7715662885869090922
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +499,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBody: {fileID: 7715662885245242962}
-  weaponBob: {fileID: 0}
 --- !u!114 &429541400
 MonoBehaviour:
   m_ObjectHideFlags: 0

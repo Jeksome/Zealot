@@ -1743,6 +1743,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   sightDistance: 7
+  enemiesNearby: []
   player: {fileID: 0}
 --- !u!136 &8701536150543832401
 CapsuleCollider:
@@ -1754,10 +1755,10 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 8843da9524c3cec4eaebc0bf81cc4e1a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.41
+  m_Radius: 0.19303203
   m_Height: 1.7881117
   m_Direction: 1
-  m_Center: {x: 0, y: 0.90376604, z: 0}
+  m_Center: {x: -0.010924816, y: 0.90376604, z: 0.0045711994}
 --- !u!54 &832004900
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1783,7 +1784,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4493914613880827488}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.24
+  m_Radius: 0.42
   m_Speed: 1
   m_Acceleration: 3.5
   avoidancePriority: 50

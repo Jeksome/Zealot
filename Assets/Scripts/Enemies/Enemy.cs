@@ -57,8 +57,9 @@ public abstract class Enemy : MonoBehaviour
 
     protected void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == Player.gameObject && state != State.DEAD && state != State.DYING)
-            StartCoroutine(ContinueChasing(attackRate));
+        if (other.gameObject == Player.gameObject && state != State.DEAD && state != State.CHASING)
+            //StartCoroutine(ContinueChasing(attackRate));
+            Invoke(nameof(ContinueChasing), attackRate);
     }
     protected void Patrol()
     {
@@ -106,13 +107,17 @@ public abstract class Enemy : MonoBehaviour
         }       
     }
 
-    private IEnumerator ContinueChasing(float attackDelay)
-    {       
+    private void ContinueChasing()
+    {
         enemyAnimator.SetBool("isAttacking", false);
         enemyAgent.isStopped = false;
         state = State.CHASING;
-        yield return new WaitForSeconds(attackDelay);
     }
+    /*private IEnumerator ContinueChasing(float attackDelay)
+    {       
+        
+        yield return new WaitForSeconds(attackDelay);
+    }*/
 
     protected void Attack()
     {
