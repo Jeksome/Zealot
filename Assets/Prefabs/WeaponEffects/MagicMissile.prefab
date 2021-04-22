@@ -23680,7 +23680,7 @@ MonoBehaviour:
   hitEffect: {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9, type: 3}
   smallHitEffect: {fileID: 1000011128802252, guid: 78944aa4978b11643bff275d2bc9e376,
     type: 3}
-  projectileSound: {fileID: 8300000, guid: 7972f0b5e0fd47f44b2c1eeb6220d407, type: 3}
+  projectileSound: {fileID: 8300000, guid: 3597b7458fc7e7b44938e7b1654a3c0c, type: 3}
 --- !u!54 &-7642350299909519161
 Rigidbody:
   m_ObjectHideFlags: 0

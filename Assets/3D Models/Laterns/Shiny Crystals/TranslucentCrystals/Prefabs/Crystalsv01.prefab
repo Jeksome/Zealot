@@ -79,6 +79,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f7b7be137d4e7b4aaf04323d12fd1b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healAmount: 13
+  mixerGroup: {fileID: 1737760430298883034, guid: 5d0b6b34cf0280a4589efe0ce0ba1f7c,
+    type: 2}
+  pickUpSound: {fileID: 8300000, guid: 4dcc4396b7e28a342b0841b9badc8824, type: 3}
 --- !u!65 &5725325171264442194
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -695,7 +699,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1

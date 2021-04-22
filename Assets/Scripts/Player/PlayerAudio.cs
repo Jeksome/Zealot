@@ -1,42 +1,48 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerAudio : MonoBehaviour
+
 {
     #pragma warning disable 0649
     [SerializeField] private List<AudioClip> steps = new List<AudioClip>();
-    private bool footstepSoundIsPlaying;
     #pragma warning restore 0649
 
     private AudioSource source;
-    private int random; 
+    private bool footstepSoundIsPlaying;
+    private float footstepDelay;
 
-    private void Start() => source = GetComponent<AudioSource>();
+    private void Awake() => source = GetComponent<AudioSource>();
 
     public void ToggleFootstep(bool isSprinting, bool isWalkingBackwards)
     {
-        if (footstepSoundIsPlaying == false)
+        if (!footstepSoundIsPlaying)
         {
             footstepSoundIsPlaying = true;
-            if (isSprinting == true)
+            if (isSprinting) 
             {
-                Invoke("GenerateFootstepSound", 0.05f);
+                footstepDelay = 0.05f;
+                StartCoroutine(GenerateFootstepSound(footstepDelay));
             }
-            else if(isWalkingBackwards == true)
+            else if (isWalkingBackwards)
             {
-                Invoke("GenerateFootstepSound", 0.4f);
+                footstepDelay = 0.4f;
+                StartCoroutine(GenerateFootstepSound(footstepDelay));
             }
-            else 
+            else
             {
-                Invoke("GenerateFootstepSound", 0.2f);
-            }            
-        }        
-    }   
+                footstepDelay = 0.2f;
+                StartCoroutine(GenerateFootstepSound(footstepDelay));
+            }
+        }
+    }
 
-    private void GenerateFootstepSound()
+    private IEnumerator GenerateFootstepSound(float delay)
     {
-        random = Random.Range(0, 10);
+        yield return new WaitForSeconds(delay);
+        int random = Random.Range(0, 10);
         source.PlayOneShot(steps[random]);
-        footstepSoundIsPlaying = false;
+        footstepSoundIsPlaying = false;        
     }
 }

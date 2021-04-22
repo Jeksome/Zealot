@@ -15,6 +15,7 @@ public class PlayerInput : MonoBehaviour
     private CharacterController playerController;
     private PlayerCharacter playerCharacter;
     private PlayerAudio playerAudio;
+    private AudioSource playerAudioSource;
 
     private const float jumpHeight = 1.2f;
     private const float groundDistance = 0.2f;
@@ -32,6 +33,7 @@ public class PlayerInput : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         playerCharacter = GetComponent<PlayerCharacter>();
         playerAudio = GetComponent<PlayerAudio>();
+        playerAudioSource = playerAudio.GetComponent<AudioSource>();
         playerHight = playerController.height;
         defaultSpeed = 5.0f;
         movingSpeed = defaultSpeed;
@@ -49,7 +51,7 @@ public class PlayerInput : MonoBehaviour
         movement = transform.TransformDirection(movement);
         playerController.Move(movement);
 
-        if (isGrounded && playerController.velocity.magnitude > 2f && playerAudio.GetComponent<AudioSource>().isPlaying == false)
+        if (isGrounded && playerController.velocity.magnitude > 2f && playerAudioSource.isPlaying == false)
         {
             playerAudio.ToggleFootstep(isSprinting, isWalkingBackwards);
         }

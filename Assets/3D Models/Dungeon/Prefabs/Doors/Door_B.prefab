@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 400006}
   m_Layer: 9
   m_Name: Door_B
-  m_TagString: Door
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.8016739, y: -2.5184848, z: 1.7281351}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: -1}
   m_Children:
   - {fileID: 461646}
   m_Father: {fileID: 0}
@@ -45,11 +45,10 @@ GameObject:
   - component: {fileID: 6450972}
   - component: {fileID: 1666416558}
   - component: {fileID: 1596672599}
-  - component: {fileID: 1596672598}
   - component: {fileID: 5541663686520557045}
   m_Layer: 9
   m_Name: Door_B
-  m_TagString: Door
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
@@ -130,7 +129,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300056, guid: 628e5212ccbe5044ba8b70740d37394e, type: 3}
 --- !u!114 &1666416558
@@ -145,7 +144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a48247963879f184b8b0e3d0cb4f4bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOpen: 0
+  mixerGroup: {fileID: 1737760430298883034, guid: 5d0b6b34cf0280a4589efe0ce0ba1f7c,
+    type: 2}
+  doorSound: {fileID: 8300000, guid: 991b8215d06ee6e4ea502e4032c02035, type: 3}
 --- !u!95 &1596672599
 Animator:
   serializedVersion: 3
@@ -165,19 +166,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1596672598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a48247963879f184b8b0e3d0cb4f4bbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOpen: 0
 --- !u!208 &5541663686520557045
 NavMeshObstacle:
   m_ObjectHideFlags: 0

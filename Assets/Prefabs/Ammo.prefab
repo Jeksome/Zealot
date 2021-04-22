@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 1061101945063428315}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0.00000028088027}
   m_LocalPosition: {x: 12.92003, y: 1.189, z: 4.9399223}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.05, y: 0.05000001, z: 0.05}
   m_Children:
   - {fileID: 1056918165487379607}
   - {fileID: 1056893572484395323}
@@ -158,6 +158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f7b7be137d4e7b4aaf04323d12fd1b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healAmount: 10
+  mixerGroup: {fileID: 1737760430298883034, guid: 5d0b6b34cf0280a4589efe0ce0ba1f7c,
+    type: 2}
+  pickUpSound: {fileID: 8300000, guid: 4dcc4396b7e28a342b0841b9badc8824, type: 3}
 --- !u!65 &4741777735493022667
 BoxCollider:
   m_ObjectHideFlags: 0

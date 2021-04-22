@@ -8,7 +8,7 @@ public class AudioPlayer : MonoBehaviour
         var temporarySource = new GameObject("TemporaryAudioSource");
         temporarySource.transform.position = pos;
         var audioSource = temporarySource.AddComponent<AudioSource>();
-        audioSource.volume = 1;
+        audioSource.volume = 0.45f;
         audioSource.priority = 70;
         audioSource.clip = clip;
         audioSource.outputAudioMixerGroup = mixerGroup;
@@ -16,6 +16,4 @@ public class AudioPlayer : MonoBehaviour
         audioSource.Play();
         return audioSource;
     }
-
-    public static void PlayAudio (AudioClip clip, AudioSource source) { }
 }

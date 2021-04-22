@@ -23,7 +23,7 @@ public class FallOnHay : MonoBehaviour
             player.GetHurt(5);
             foreach (Enemy enemy in enemiesAround)
             {
-                enemy.BecomeAgressive();
+                enemy.GetAgressive();
             }
         }
     }

@@ -11,10 +11,11 @@ public class Zombie : Enemy
     {
         enemyAgent = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponent<Animator>();
-        enemyAnimator.SetBool("isWalking", true);
+        enemyAudio = GetComponent<EnemyAudio>();
+        enemyAnimator.SetBool("isWalking", true);        
 
         Player = player;
-        maxHealth = 5;
+        maxHealth = 4;
         currentHealth = maxHealth;
         minHealth = 1;
         attackRate = 0.5f;
@@ -25,5 +26,6 @@ public class Zombie : Enemy
     {
         attackDamage = Random.Range(1, 4);
         player.GetHurt(attackDamage);
+        enemyAudio.PlayAttackSound();
     }
 }

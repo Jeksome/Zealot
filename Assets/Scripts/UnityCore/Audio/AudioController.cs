@@ -25,7 +25,8 @@ namespace UnityCore
             [System.Serializable]
             public class AudioTrack
             {
-                public AudioSource source;
+                public string Name;
+                public AudioSource source;                
                 public AudioObject[] audio;
             }
 
@@ -33,24 +34,23 @@ namespace UnityCore
             {
                 public AudioAction action;
                 public AudioType type;
+                public AudioSource source;
+                public AudioClip clip;
                 public bool fade;
                 public float delay;
 
-                public AudioJob(AudioAction action, AudioType type, bool fade, float delay)
+                public AudioJob(AudioAction action, AudioType type, bool fade, float delay, AudioSource source, AudioClip clip)
                 {
                     this.action = action;
                     this.type = type;
                     this.fade = fade;
                     this.delay = delay;
+                    this.source = source;
+                    this.clip = clip;
                 }
             }
 
-            private enum AudioAction
-            {
-                START,
-                STOP,
-                RESTART
-            }
+            private enum AudioAction { START, STOP, RESTART}
 
             #region Unity Functions
             private void Awake()
@@ -58,30 +58,15 @@ namespace UnityCore
                 if (!instance) Configure();
             }
 
-            private void OnDisable()
-            {
-                Dispose();
-            }
+            private void OnDisable() => Dispose();
 
             #endregion
 
             #region Public Functions
 
-            public void PlayAudio(AudioType type, bool fade = false, float delay = 0.0f)
-            {
-                AddJob(new AudioJob(AudioAction.START, type, fade, delay));
-            }
-
-            public void StopAudio(AudioType type, bool fade = false, float delay = 0.0f)
-            {
-                AddJob(new AudioJob(AudioAction.STOP, type, fade, delay));
-            }
-
-            public void RestartAudio(AudioType type, bool fade = false, float delay = 0.0f)
-            {
-                AddJob(new AudioJob(AudioAction.RESTART, type, fade, delay));;
-            }
-
+            public void PlayAudio(AudioType type, bool fade = false, float delay = 0.0f, AudioSource source = null, AudioClip clip = null) => AddJob(new AudioJob(AudioAction.START, type, fade, delay, source, clip));
+            public void StopAudio(AudioType type, bool fade = false, float delay = 0.0f, AudioSource source = null, AudioClip clip = null) => AddJob(new AudioJob(AudioAction.STOP, type, fade, delay, source, clip));
+            public void RestartAudio(AudioType type, bool fade = false, float delay = 0.0f, AudioSource source = null, AudioClip clip = null) => AddJob(new AudioJob(AudioAction.RESTART, type, fade, delay, source, clip));
             #endregion
 
             #region Private Functions
@@ -127,7 +112,17 @@ namespace UnityCore
                 yield return new WaitForSeconds(job.delay);
 
                 AudioTrack track = (AudioTrack)audioTable[job.type];
-                track.source.clip = GetAudioClipFromAudioTrack(job.type, track);
+
+                if (job.source != null) track.source = job.source;
+
+                if (job.clip != null)
+                {
+                    track.source.clip = job.clip;
+                }
+                else
+                {
+                    track.source.clip = GetAudioClipFromAudioTrack(job.type, track);
+                }             
 
                 switch (job.action)
                 {
@@ -135,10 +130,7 @@ namespace UnityCore
                         track.source.Play();
                         break;
                     case AudioAction.STOP:
-                        if (!job.fade)
-                        {
-                            track.source.Stop();
-                        }
+                        if (!job.fade) track.source.Stop();
                         break;
                     case AudioAction.RESTART:
                         track.source.Stop();
