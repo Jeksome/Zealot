@@ -84,10 +84,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void WarnOtherEnemies()
     {
-        if (enemiesNearby == null)
-        {
-            return;
-        }
+        if (enemiesNearby == null) return;
         else
         {
             foreach (Enemy enemy in enemiesNearby)
@@ -112,9 +109,12 @@ public abstract class Enemy : MonoBehaviour
     private IEnumerator ContinueChasing(float attackDelay)
     {               
         yield return new WaitForSeconds(attackDelay);
-        enemyAnimator.SetBool("isAttacking", false);
-        enemyAgent.isStopped = false;
-        state = State.CHASING;
+        if (state != State.DEAD)
+        {
+            enemyAnimator.SetBool("isAttacking", false);
+            state = State.CHASING;
+            enemyAgent.isStopped = false;
+        }
     }
 
     private void Attack()

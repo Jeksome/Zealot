@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class PlayerCharacter : MonoBehaviour
     private const int maxStat = 100;
     private int currentHealth;
     private int currentArmor;
+    private AudioSource source;
 
     public bool CanCast { get { return canCast; } }
     private bool canCast = true;
@@ -13,12 +15,14 @@ public class PlayerCharacter : MonoBehaviour
     private bool isBurdened;   
 
     #pragma warning disable 0649
-    [SerializeField] HealthBar healthBar;
-    [SerializeField] ArmorBar armorBar;    
+    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private ArmorBar armorBar;
+    [SerializeField] private List<AudioClip> clips; 
     #pragma warning restore 0649
 
     private void Start()
     {
+        source = GetComponent<AudioSource>();
         currentHealth = 25;
         HealthCrystal.IsPickedUp += Heal;
         Armor.isPickedUp += AddArmor;
@@ -41,11 +45,19 @@ public class PlayerCharacter : MonoBehaviour
         {
             currentHealth -= damage;
             currentArmor = 0;
+
+            if (damage == 1) source.PlayOneShot(clips[0]);
+            else if (damage == 2) source.PlayOneShot(clips[1]);
+            else return;
         }
         else if (currentArmor > 0)
         {
             currentHealth -= damage / 2;
             currentArmor -= 1;
+
+            if (damage == 1) source.PlayOneShot(clips[0]);
+            else if (damage == 2) source.PlayOneShot(clips[1]);
+            else source.PlayOneShot(clips[3]);
         }
 
         if (currentHealth < minHealth)

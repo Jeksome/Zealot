@@ -11,47 +11,36 @@ public abstract class EnemyAudio : MonoBehaviour
     #pragma warning restore 0649
 
     protected AudioSource source;
-    private int randomTime;
+    private bool isPlaying;
 
-    public void StopPatrolingSound()
-    {
-        StartJob(growl);
-    }
+    public void StopPatrolingSound() => StartJob(growl);
+    public virtual void PlayAttackSound() => StartJob(attack, true);
+    public void PlayDyingSound() => StartJob(die);
+    public void PlayOnHitRecieved() => StartJob(gotHit, true);
 
-    public void PlayAttackSound()
+    protected void StartJob(AudioClip clip, bool randomChance = false)
     {
-        StartJob(attack, true);
-    }
-
-    public void PlayDyingSound()
-    {
-        StartJob(die);
-    }
-
-    public void PlayOnHitRecieved()
-    {
-        StartJob(gotHit, true);
-    }
-
-    private void StartJob(AudioClip clip, bool randomChance = false, int minDelay = 0, int maxDelay = 0)
-    {
-        StopAllCoroutines();
-        StartCoroutine(PlaySound(clip, randomChance, minDelay, maxDelay));
-    }
-
-    private IEnumerator PlaySound(AudioClip clip, bool randomChance, int minDelay = 0, int MaxDelay = 0)
-    {
-        yield return new WaitForSeconds(randomTime);
-        randomTime = Random.Range(minDelay, MaxDelay);
         if (!randomChance) source.PlayOneShot(clip);
+        else PlayWithDelay(clip);    
+    }
+
+
+    private void PlayWithDelay(AudioClip clip)
+    {
+        int randomTime = Random.Range(4, 8);
+        
+        if (isPlaying) return;
         else
         {
-            int dice = Random.Range(1, 4);
-            if (dice == 1)
-            {
-                source.PlayOneShot(clip);
-            }
+            source.PlayOneShot(clip);
+            isPlaying = true;
+            StartCoroutine(IsPlaying(randomTime));
         }
+    }
 
+    private IEnumerator IsPlaying(int randomTime)
+    {
+        yield return new WaitForSeconds(randomTime);
+        isPlaying = false;
     }
 }

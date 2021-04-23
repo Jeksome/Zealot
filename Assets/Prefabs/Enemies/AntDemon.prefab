@@ -202,6 +202,8 @@ GameObject:
   - component: {fileID: 653224112}
   - component: {fileID: 653224108}
   - component: {fileID: 653224111}
+  - component: {fileID: 594107837}
+  - component: {fileID: 594107838}
   m_Layer: 0
   m_Name: AntDemon
   m_TagString: Untagged
@@ -240,7 +242,9 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
-  sightDistance: 7
+  - {fileID: 0}
+  - {fileID: 0}
+  sightDistance: 12
   enemiesNearby: []
   player: {fileID: 0}
 --- !u!95 &9500310
@@ -331,7 +335,7 @@ NavMeshAgent:
   m_Acceleration: 7
   avoidancePriority: 50
   m_AngularSpeed: 999
-  m_StoppingDistance: 0.35
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -339,6 +343,119 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!82 &594107837
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111292}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 7334372544229739366, guid: 5d0b6b34cf0280a4589efe0ce0ba1f7c,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 67
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &594107838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 450fa5dbda816ef49b30d03c18a9addc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attack: {fileID: 8300000, guid: 94e412e435778a443b58fb918ea40207, type: 3}
+  die: {fileID: 8300000, guid: 75568e74c59be514694828ae88bbd51f, type: 3}
+  gotHit: {fileID: 8300000, guid: 7a7d55ca47ce373488603892118f8678, type: 3}
+  growl: {fileID: 8300000, guid: 0c58730fbad328a48801611e8665ecac, type: 3}
 --- !u!1 &112038
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,14 +8,23 @@ public class MouseLook : MonoBehaviour
 
     private Camera playerCamera;
     private float xRotation = 0f; 
-    private float mouseSens = 300f;  
-    
+    private float mouseSens = 300f;
+    private bool isOn = true;
+    public bool IsOn 
+    {
+        set { isOn = value; }
+    }
+
     private void OnGUI()
     {
-        int size = 12;
-        float posX = playerCamera.pixelWidth / 2 - size / 4;
-        float posY = playerCamera.pixelHeight / 2 - size / 2;
-        GUI.Label(new Rect(posX, posY, size, size), "+");
+        if (isOn)
+        {
+            int size = 12;
+            float posX = playerCamera.pixelWidth / 2 - size / 4;
+            float posY = playerCamera.pixelHeight / 2 - size / 2;
+            GUI.Label(new Rect(posX, posY, size, size), "+");
+        }
+        else return;    
     }
 
     private void Start()
