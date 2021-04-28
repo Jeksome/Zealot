@@ -2,10 +2,8 @@
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class FallOnHay : MonoBehaviour
+public class FallOnHay : MonoBehaviour, ITriggerable
 {
-    private bool isTriggered;
-
     #pragma warning disable 0649
     [SerializeField] private PlayerCharacter player;
     [SerializeField] private AudioClip impactSound;
@@ -13,18 +11,14 @@ public class FallOnHay : MonoBehaviour
     [SerializeField] private List<Enemy> enemiesAround = new List<Enemy>();
     #pragma warning restore 0649
 
-    private void OnTriggerEnter(Collider other)
+    public void ActivateTrigger()
     {
-        if (other.gameObject == player.gameObject && isTriggered == false)
+        AudioPlayer.PlayAudio(impactSound, gameObject.transform.position, mixerGroup);
+        player.GetHurt(5);
+
+        foreach (Enemy enemy in enemiesAround)
         {
-            isTriggered = true;
-            Debug.Log("is triggered");
-            AudioPlayer.PlayAudio(impactSound, gameObject.transform.position, mixerGroup);
-            player.GetHurt(5);
-            foreach (Enemy enemy in enemiesAround)
-            {
-                enemy.GetAgressive();
-            }
+            enemy.GetAgressive();
         }
     }
 }

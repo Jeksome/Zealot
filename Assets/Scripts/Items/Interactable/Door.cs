@@ -19,7 +19,7 @@ public class Door : Openable
         if (!animationIsPlaying && !isOpen)
         {
             Open();
-            AudioPlayer.PlayAudio(doorSound, transform.position, mixerGroup);
+            AudioPlayer.PlayAudio(doorSound, transform.position, mixerGroup);           
         }
         else if (!animationIsPlaying && isOpen)
         {

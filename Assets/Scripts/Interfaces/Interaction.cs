@@ -14,3 +14,10 @@ public interface IReadable : IInteractable
     void ReadBook();
     void CloseBook();
 }
+
+public interface ITriggerable 
+{
+    void ActivateTrigger();
+}
+
+
