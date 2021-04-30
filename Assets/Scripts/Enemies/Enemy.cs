@@ -11,11 +11,10 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected List<Enemy> enemiesNearby;
     #pragma warning restore 0649
 
-    private enum State { PATROLING, CHASING, ATTACKING, DYING, DEAD }
-    private State state = State.PATROLING;
     private bool isChasing;
     private float distanceToPlayer;
-
+    protected enum State { PATROLING, CHASING, ATTACKING, DYING, DEAD }
+    protected State state = State.PATROLING;
     protected NavMeshAgent enemyAgent;
     protected Animator enemyAnimator;
     protected PlayerCharacter Player;
@@ -135,6 +134,7 @@ public abstract class Enemy : MonoBehaviour
         enemyAnimator.SetBool("isDying", true);
         enemyAudio.PlayDyingSound();
         enemyAgent.isStopped = true;
+        enemyAgent.radius = 0;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
     }

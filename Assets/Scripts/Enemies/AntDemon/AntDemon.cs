@@ -26,7 +26,7 @@ public class AntDemon : Enemy
     public override void HitPlayer()  
     {
         enemyAudio.PlayAttackSound();
-        attackDamage = Random.Range(4, 10);
+        attackDamage = Random.Range(8, 12);
         player.GetHurt(attackDamage);
     }
 }
